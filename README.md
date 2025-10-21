@@ -2,8 +2,23 @@
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue.svg)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![npm version](https://badge.fury.io/js/%40gftdcojp%2Fai-gftd-ontology-typebox.svg)](https://badge.fury.io/js/%40gftdcojp%2Fai-gftd-ontology-typebox)
 
 A TypeScript library that provides type-safe DoDAF 2.0 (Department of Defense Architecture Framework Version 2.0) ontology definitions using [TypeBox](https://github.com/sinclairzx81/typebox) for runtime validation and [JSON-LD](https://json-ld.org/) for semantic web compatibility.
+
+## 📋 Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [API Reference](#api-reference)
+- [DoDAF 2.0 Views and Products](#dodaf-20-views-and-products)
+- [JSON-LD Context](#json-ld-context)
+- [Use Cases](#use-cases)
+- [Development](#development)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Features
 
@@ -351,7 +366,7 @@ pnpm test:run
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
 ## Related Projects
 
