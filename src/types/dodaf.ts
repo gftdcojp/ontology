@@ -62,6 +62,16 @@ export type ElementType =
   | 'DataRelationship'
   | 'DataEntity'
   | 'DataAttribute'
+  // Services Elements (統合)
+  | 'ServiceDescription'
+  | 'Service'
+  | 'Information'
+  | 'Representation'
+  | 'InformationType'
+  | 'RepresentationType'
+  | 'Port'
+  | 'ServicePort'
+  | 'ServiceInterface'
   // Standard Elements
   | 'Standard'
   | 'StandardProfile'
@@ -126,6 +136,15 @@ export type RelationshipType =
   | 'DataRelationship'
   | 'DataEntityRelationship'
   | 'DataAttributeRelationship'
+  // Services Relationships (統合)
+  | 'ServiceDescribedBy'
+  | 'ServicePortDescribedBy'
+  | 'RepresentedBy'
+  | 'Description'
+  | 'ServicePortBeingDescribed'
+  | 'ServiceBeingDescribed'
+  | 'InformationDescribedBy'
+  | 'RepresentationDescribedBy'
   // Organizational Relationships
   | 'OrganizationalHierarchy'
   | 'OrganizationalReporting'

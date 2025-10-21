@@ -285,6 +285,148 @@ describe('DoDAF 2.0 Ontology', () => {
       expect(report.metaModelValidation.elements).toHaveLength(1);
       expect(report.metaModelValidation.elements[0].valid).toBe(true);
     });
+
+    it('should validate Services Model elements', async () => {
+      let architecture = createDoDAFArchitecture({
+        id: 'services-model-test',
+        name: 'Services Model Test',
+        description: 'Test for Services Model validation',
+        author: 'Test Author',
+        organization: 'Test Organization',
+        includeAllViews: true
+      });
+
+      // Add Service Description element
+      architecture = addElementToProduct(
+        architecture,
+        `${architecture.id}/view/SV/product/SV-1`,
+        {
+          id: 'service-desc-1',
+          type: 'ServiceDescription',
+          name: 'Sample Service Description',
+          description: 'Description of a sample service',
+          properties: {
+            serviceType: 'REST API',
+            serviceLevel: 'Gold'
+          }
+        }
+      );
+
+      // Add Service element
+      architecture = addElementToProduct(
+        architecture,
+        `${architecture.id}/view/SV/product/SV-1`,
+        {
+          id: 'service-1',
+          type: 'Service',
+          name: 'Sample Service',
+          description: 'A sample service',
+          properties: {
+            serviceType: 'web service',
+            protocol: 'HTTP/REST'
+          }
+        }
+      );
+
+      // Add Information element
+      architecture = addElementToProduct(
+        architecture,
+        `${architecture.id}/view/SV/product/SV-1`,
+        {
+          id: 'info-1',
+          type: 'Information',
+          name: 'Sample Information',
+          description: 'Sample information entity',
+          properties: {
+            informationType: 'customer data',
+            classification: 'internal'
+          }
+        }
+      );
+
+      // Add Service Description relationship
+      architecture = addRelationshipToProduct(
+        architecture,
+        `${architecture.id}/view/SV/product/SV-1`,
+        {
+          id: 'service-desc-rel',
+          type: 'ServiceDescribedBy',
+          name: 'Service Description Relationship',
+          description: 'Service described by service description',
+          sourceId: 'service-1',
+          targetId: 'service-desc-1',
+          properties: {
+            descriptionType: 'functional'
+          }
+        }
+      );
+
+      const result = await validateArchitecture(architecture);
+
+      expect(result.valid).toBe(true);
+      expect(result.errors).toHaveLength(0);
+    });
+
+    it('should validate complex Services Model relationships', async () => {
+      const { validateElementAgainstMetaModel, validateRelationshipAgainstMetaModel } = await import('../ontology/dodaf-metamodel');
+
+      // Test Service Description element
+      const serviceDescValidation = validateElementAgainstMetaModel({
+        id: 'service-desc-1',
+        type: 'ServiceDescription',
+        name: 'Test Service Description',
+        description: 'A test service description',
+        properties: {
+          serviceType: 'SOAP',
+          serviceLevel: 'Silver'
+        }
+      });
+
+      expect(serviceDescValidation.valid).toBe(true);
+
+      // Test Service element
+      const serviceValidation = validateElementAgainstMetaModel({
+        id: 'service-1',
+        type: 'Service',
+        name: 'Test Service',
+        description: 'A test service',
+        properties: {
+          serviceType: 'web service',
+          protocol: 'SOAP'
+        }
+      });
+
+      expect(serviceValidation.valid).toBe(true);
+
+      // Test Information element
+      const infoValidation = validateElementAgainstMetaModel({
+        id: 'info-1',
+        type: 'Information',
+        name: 'Test Information',
+        description: 'Test information',
+        properties: {
+          informationType: 'metadata',
+          classification: 'public'
+        }
+      });
+
+      expect(infoValidation.valid).toBe(true);
+
+      // Test ServiceDescribedBy relationship
+      const relationshipValidation = validateRelationshipAgainstMetaModel({
+        id: 'rel-1',
+        type: 'ServiceDescribedBy',
+        name: 'Service Description Relationship',
+        description: 'Service described by description',
+        sourceId: 'service-1',
+        targetId: 'service-desc-1',
+        properties: {
+          descriptionType: 'technical'
+        }
+      });
+
+      expect(relationshipValidation.valid).toBe(true);
+    });
   });
 
   describe('Standard Views', () => {
