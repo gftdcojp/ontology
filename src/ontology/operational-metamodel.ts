@@ -1,76 +1,325 @@
 /**
- * DoDAF 2.0 Operational Meta Model
- * Operational domain elements and relationships
+ * DoDAF DM2 Operational Meta Model
+ * Operational View (OV) concepts from DoDAF DM2 ontology
  */
 
 import type { MetaModelClass } from './meta-model-types';
 
-// Operational Domain Elements
+// Operational View (OV) Elements from DoDAF DM2
 export const OPERATIONAL_METAMODEL: Record<string, MetaModelClass> = {
-  OperationalActivity: {
-    name: 'OperationalActivity',
-    description: 'An activity performed by operational performers',
-    superClass: 'Element',
+  // Core operational concepts
+  Activity: {
+    name: 'Activity',
+    description: 'Work, not specific to a single organization, weapon system or individual that transforms inputs (Resources) into outputs (Resources) or changes their state.',
+    superClass: 'IndividualType',
     properties: [
       {
-        name: 'inputs',
-        type: 'array',
-        required: false,
-        description: 'Resources required as inputs'
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
       },
       {
-        name: 'outputs',
-        type: 'array',
-        required: false,
-        description: 'Resources produced as outputs'
-      },
-      {
-        name: 'performers',
-        type: 'array',
-        required: false,
-        description: 'Operational performers that execute this activity'
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
       }
     ],
     constraints: []
   },
 
-  OperationalPerformer: {
-    name: 'OperationalPerformer',
-    description: 'An entity that performs operational activities',
-    superClass: 'Element',
+  Capability: {
+    name: 'Capability',
+    description: 'Capability class',
+    superClass: 'IndividualType',
     properties: [
       {
-        name: 'activities',
-        type: 'array',
-        required: false,
-        description: 'Activities performed by this performer'
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
       },
       {
-        name: 'resources',
-        type: 'array',
-        required: false,
-        description: 'Resources used by this performer'
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
       }
     ],
     constraints: []
   },
 
-  OperationalResource: {
-    name: 'OperationalResource',
-    description: 'A resource used in operational activities',
-    superClass: 'Element',
+  Project: {
+    name: 'Project',
+    description: 'A temporary endeavor undertaken to create Resources or Desired Effects.',
+    superClass: 'Individual',
     properties: [
       {
-        name: 'resourceType',
+        name: 'id',
         type: 'string',
-        required: false,
-        description: 'Type of operational resource'
+        required: true,
+        description: 'Unique identifier'
       },
       {
-        name: 'quantity',
+        name: 'name',
         type: 'string',
-        required: false,
-        description: 'Quantity of the resource'
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  Vision: {
+    name: 'Vision',
+    description: 'An end that describes the future state of the enterprise, without regard to how it is to be achieved; a mental image of what the future will or could be like',
+    superClass: 'IndividualType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  Condition: {
+    name: 'Condition',
+    description: 'The state of an environment or situation in which a Performer performs or is disposed to perform.',
+    superClass: 'IndividualType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  Guidance: {
+    name: 'Guidance',
+    description: 'An authoritative statement intended to lead or steer the execution of actions.',
+    superClass: 'IndividualType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  // Activity-related concepts
+  SingletonActivity: {
+    name: 'SingletonActivity',
+    description: 'A set of activities containing only one activity.',
+    superClass: 'Activity',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  IndividualActivity: {
+    name: 'IndividualActivity',
+    description: 'Activities that are Individuals, i.e., that occur in space and time.',
+    superClass: 'Individual',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  // Type concepts
+  ActivityType: {
+    name: 'ActivityType',
+    description: 'Classes of Activities.',
+    superClass: 'IndividualTypeType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  CapabilityType: {
+    name: 'CapabilityType',
+    description: 'Category or type of capability',
+    superClass: 'IndividualTypeType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  ProjectType: {
+    name: 'ProjectType',
+    description: 'The powertype of Project',
+    superClass: 'IndividualType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  ProjectTypeType: {
+    name: 'ProjectTypeType',
+    description: 'The Powertype of ProjectType.',
+    superClass: 'IndividualTypeType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  ConditionType: {
+    name: 'ConditionType',
+    description: 'The Powertype of Condition.',
+    superClass: 'IndividualTypeType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  GuidanceType: {
+    name: 'GuidanceType',
+    description: 'The Powertype of Guidance.',
+    superClass: 'IndividualTypeType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  VisionType: {
+    name: 'VisionType',
+    description: 'The Powertype of Vision.',
+    superClass: 'IndividualTypeType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
       }
     ],
     constraints: []

@@ -1,34 +1,375 @@
 /**
- * DoDAF 2.0 Data Meta Model
- * Data domain elements and relationships (CDM, LDM, PES)
+ * DoDAF DM2 Data Meta Model
+ * Data and Information View (DIV) concepts from DoDAF DM2 ontology
  */
 
 import type { MetaModelClass } from './meta-model-types';
 
-// Data Domain Elements
+// Data and Information View (DIV) Elements from DoDAF DM2
 export const DATA_METAMODEL: Record<string, MetaModelClass> = {
-  Data: {
-    name: 'Data',
-    description: 'Data entity used in the architecture',
-    superClass: 'Element',
+  // Core information concepts
+  Information: {
+    name: 'Information',
+    description: 'Information is the state of a something of interest that is materialized -- in any medium or form -- and communicated or received.',
+    superClass: 'Representation',
     properties: [
       {
-        name: 'dataType',
+        name: 'id',
         type: 'string',
-        required: false,
-        description: 'Type of data'
+        required: true,
+        description: 'Unique identifier'
       },
       {
-        name: 'format',
+        name: 'name',
         type: 'string',
-        required: false,
-        description: 'Data format'
+        required: true,
+        description: 'Human-readable name'
       }
     ],
     constraints: []
   },
 
+  Data: {
+    name: 'Data',
+    description: 'Representation of information in a formalized manner suitable for communication, interpretation, or processing by humans or by automatic means. Examples could be whole models, packages, entities, attributes, classes, domain values, enumeration values, records, tables, rows, columns, and fields.',
+    superClass: 'Information',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  ArchitecturalDescription: {
+    name: 'ArchitecturalDescription',
+    description: 'Information describing an architecture such as an OV-5 Activity Model document.',
+    superClass: 'Information',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  PedigreeInformation: {
+    name: 'PedigreeInformation',
+    description: 'Information describing pedigree',
+    superClass: 'Information',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  DomainInformation: {
+    name: 'DomainInformation',
+    description: 'Types of information within the scope or domain of the architecture.',
+    superClass: 'Information',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  // Representation concepts
+  Representation: {
+    name: 'Representation',
+    description: 'A SignType where all the individual Signs are intended to signify the same Thing.',
+    superClass: 'SignType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  Name: {
+    name: 'Name',
+    description: 'The type of all utterances of a given name for a Thing. The exemplarText provides a written example of the uttered name.',
+    superClass: 'Representation',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  // Type concepts
+  InformationType: {
+    name: 'InformationType',
+    description: 'Category or type of information',
+    superClass: 'RepresentationType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  DataType: {
+    name: 'DataType',
+    description: 'Powertype of Data',
+    superClass: 'InformationType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  ArchitecturalDescriptionType: {
+    name: 'ArchitecturalDescriptionType',
+    description: 'The Powertype of ArchitecturalDescription.',
+    superClass: 'InformationType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  PedigreeInformationType: {
+    name: 'PedigreeInformationType',
+    description: 'The Powertype of PedigreeInformation.',
+    superClass: 'InformationType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  DomainInformationType: {
+    name: 'DomainInformationType',
+    description: 'The Powertype of DomainInformation.',
+    superClass: 'InformationType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  RepresentationType: {
+    name: 'RepresentationType',
+    description: 'A Type that is the Powertype of Representation',
+    superClass: 'Resource',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  NameType: {
+    name: 'NameType',
+    description: 'A RepresentationType that is the Powertype of Name',
+    superClass: 'RepresentationType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  DescriptionScheme: {
+    name: 'DescriptionScheme',
+    description: 'A RepresentationScheme and DescriptionType whose members are intentionally descriptions',
+    superClass: 'InformationType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  NamingScheme: {
+    name: 'NamingScheme',
+    description: 'A Type whose members are Names. What kind of name the name is.',
+    superClass: 'RepresentationScheme',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  RepresentationScheme: {
+    name: 'RepresentationScheme',
+    description: 'A RepresentationType that is a collection of Representations that are intended to be the preferred Representations in certain contexts.',
+    superClass: 'RepresentationType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  }
+};
+
   // Data Model Elements (CDM, LDM, PES統合)
+  export const TRADITIONAL_DATA_METAMODEL: Record<string, MetaModelClass> = {
   ConceptualDataModel: {
     name: 'ConceptualDataModel',
     description: 'Conceptual data model representing business concepts',

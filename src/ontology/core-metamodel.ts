@@ -1,285 +1,500 @@
 /**
- * DoDAF 2.0 Core Meta Model
- * Core architecture elements
+ * DoDAF DM2 Core Meta Model
+ * Foundation concepts from DoDAF DM2 ontology
  */
 
-import type { ElementType, RelationshipType } from '../types/dodaf';
 import type { MetaModelClass } from './meta-model-types';
 
-// Core Architecture Elements
+// Core DoDAF DM2 Foundation Concepts
 export const CORE_METAMODEL: Record<string, MetaModelClass> = {
-  ArchitectureDescription: {
-    name: 'ArchitectureDescription',
-    description: 'The root element of a DoDAF architecture description',
+  // Basic ontological foundations
+  Thing: {
+    name: 'Thing',
+    description: 'The union of Individual, Type, and tuple.',
     properties: [
       {
         name: 'id',
         type: 'string',
         required: true,
-        description: 'Unique identifier for the architecture description'
+        description: 'Unique identifier'
       },
       {
         name: 'name',
         type: 'string',
         required: true,
-        description: 'Human-readable name of the architecture'
-      },
-      {
-        name: 'description',
-        type: 'string',
-        required: true,
-        description: 'Description of the architecture'
-      },
-      {
-        name: 'version',
-        type: 'string',
-        required: true,
-        description: 'Version of the architecture description'
-      },
-      {
-        name: 'views',
-        type: 'array',
-        required: true,
-        description: 'Collection of views in the architecture'
-      },
-      {
-        name: 'metadata',
-        type: 'reference',
-        required: true,
-        description: 'Metadata about the architecture'
-      }
-    ],
-    constraints: [
-      {
-        type: 'cardinality',
-        description: 'Must have at least one view',
-        parameters: { min: 1, property: 'views' }
-      }
-    ]
-  },
-
-  View: {
-    name: 'View',
-    description: 'A viewpoint of the architecture focusing on specific concerns',
-    properties: [
-      {
-        name: 'id',
-        type: 'string',
-        required: true,
-        description: 'Unique identifier for the view'
-      },
-      {
-        name: 'type',
-        type: 'string',
-        required: true,
-        description: 'Type of view (AV, OV, SV, TV, DIV)'
-      },
-      {
-        name: 'name',
-        type: 'string',
-        required: true,
-        description: 'Human-readable name of the view'
-      },
-      {
-        name: 'description',
-        type: 'string',
-        required: true,
-        description: 'Description of the view'
-      },
-      {
-        name: 'purpose',
-        type: 'string',
-        required: true,
-        description: 'Purpose of the view'
-      },
-      {
-        name: 'products',
-        type: 'array',
-        required: true,
-        description: 'Collection of products in the view'
-      }
-    ],
-    constraints: [
-      {
-        type: 'valueRange',
-        description: 'View type must be one of the standard DoDAF view types',
-        parameters: { values: ['AV', 'OV', 'SV', 'TV', 'DIV'] }
-      }
-    ]
-  },
-
-  Product: {
-    name: 'Product',
-    description: 'A specific artifact or representation within a view',
-    properties: [
-      {
-        name: 'id',
-        type: 'string',
-        required: true,
-        description: 'Unique identifier for the product'
-      },
-      {
-        name: 'viewId',
-        type: 'string',
-        required: true,
-        description: 'Reference to the parent view'
-      },
-      {
-        name: 'number',
-        type: 'string',
-        required: true,
-        description: 'Product number (e.g., OV-1, SV-2)'
-      },
-      {
-        name: 'name',
-        type: 'string',
-        required: true,
-        description: 'Human-readable name of the product'
-      },
-      {
-        name: 'description',
-        type: 'string',
-        required: true,
-        description: 'Description of the product'
-      },
-      {
-        name: 'purpose',
-        type: 'string',
-        required: true,
-        description: 'Purpose of the product'
-      },
-      {
-        name: 'elements',
-        type: 'array',
-        required: false,
-        description: 'Collection of elements in the product'
-      },
-      {
-        name: 'relationships',
-        type: 'array',
-        required: false,
-        description: 'Collection of relationships in the product'
-      }
-    ],
-    constraints: [
-      {
-        type: 'pattern',
-        description: 'Product number must follow DoDAF naming convention',
-        parameters: { pattern: '^[A-Z]{2,3}-\\d+[a-z]?$' }
-      }
-    ]
-  },
-
-  Element: {
-    name: 'Element',
-    description: 'A basic building block within a product',
-    properties: [
-      {
-        name: 'id',
-        type: 'string',
-        required: true,
-        description: 'Unique identifier for the element'
-      },
-      {
-        name: 'productId',
-        type: 'string',
-        required: true,
-        description: 'Reference to the parent product'
-      },
-      {
-        name: 'type',
-        type: 'string',
-        required: true,
-        description: 'Type of element from the DoDAF meta model'
-      },
-      {
-        name: 'name',
-        type: 'string',
-        required: true,
-        description: 'Human-readable name of the element'
-      },
-      {
-        name: 'description',
-        type: 'string',
-        required: true,
-        description: 'Description of the element'
-      },
-      {
-        name: 'properties',
-        type: 'reference',
-        required: false,
-        description: 'Additional properties of the element'
-      },
-      {
-        name: 'metadata',
-        type: 'reference',
-        required: false,
-        description: 'Metadata about the element'
+        description: 'Human-readable name'
       }
     ],
     constraints: []
   },
 
-  Relationship: {
-    name: 'Relationship',
-    description: 'A connection between elements',
+  Individual: {
+    name: 'Individual',
+    description: 'A Thing that has spatio-temporal extent. Note - this may be something that existed in the past, exists now, or may exist in some future possible world.',
+    superClass: 'Thing',
     properties: [
       {
         name: 'id',
         type: 'string',
         required: true,
-        description: 'Unique identifier for the relationship'
-      },
-      {
-        name: 'productId',
-        type: 'string',
-        required: true,
-        description: 'Reference to the parent product'
-      },
-      {
-        name: 'type',
-        type: 'string',
-        required: true,
-        description: 'Type of relationship from the DoDAF meta model'
+        description: 'Unique identifier'
       },
       {
         name: 'name',
         type: 'string',
         required: true,
-        description: 'Human-readable name of the relationship'
-      },
-      {
-        name: 'description',
-        type: 'string',
-        required: true,
-        description: 'Description of the relationship'
-      },
-      {
-        name: 'sourceId',
-        type: 'string',
-        required: true,
-        description: 'Reference to the source element'
-      },
-      {
-        name: 'targetId',
-        type: 'string',
-        required: true,
-        description: 'Reference to the target element'
-      },
-      {
-        name: 'properties',
-        type: 'reference',
-        required: false,
-        description: 'Additional properties of the relationship'
+        description: 'Human-readable name'
       }
     ],
-    constraints: [
+    constraints: []
+  },
+
+  Type: {
+    name: 'Type',
+    description: 'A set (or class) of Things. Note1: Types are identified by their members (i.e. all the things of that type). Note2: The IDEAS Foundation is a higher-order ontology, so Types may have members that are also Types.',
+    superClass: 'Thing',
+    properties: [
       {
-        type: 'reference',
-        description: 'Source and target IDs must reference existing elements',
-        parameters: { property: 'sourceId,targetId' }
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
       }
-    ]
+    ],
+    constraints: []
+  },
+
+  // Tuple and relationship concepts
+  Tuple: {
+    name: 'tuple',
+    description: 'A relationship between two or more things. Note: Tuples are identified by their places (i.e. the ends of the relationship).',
+    superClass: 'Thing',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  Couple: {
+    name: 'couple',
+    description: 'An ordered relationship (tuple) between two Things, i.e., that has two place positions.',
+    superClass: 'tuple',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  // Type hierarchy concepts
+  IndividualType: {
+    name: 'IndividualType',
+    description: 'The powertype of Individual.',
+    superClass: 'Type',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  CoupleType: {
+    name: 'CoupleType',
+    description: 'A couple in which the places are taken by Types only.',
+    superClass: 'TupleType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  TupleType: {
+    name: 'TupleType',
+    description: 'The powertype of tuple that provides the stereotype for tuples of Types.',
+    superClass: 'Type',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  // Property concepts
+  Property: {
+    name: 'Property',
+    description: 'An IndividualType whose members all exhibit a common trait or feature. Often the Individuals are states having a property (the state of being 18 degrees centigrade), where this property can be a CategoricalProperty (qv.) or a DispositionalProperty (qv.).',
+    superClass: 'IndividualType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  PropertyType: {
+    name: 'PropertyType',
+    description: 'The Powertype of Property.',
+    superClass: 'IndividualTypeType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  IndividualTypeType: {
+    name: 'IndividualTypeType',
+    description: 'A PlaceableType that is the Powertype of IndividualType',
+    superClass: 'Type',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  Powertype: {
+    name: 'Powertype',
+    description: 'A Type that is the is the set (i.e., Type) of all subsets (i.e., subTypes) that can be taken over the some Type.',
+    superClass: 'Type',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  // Whole-part relationships
+  WholePartType: {
+    name: 'WholePartType',
+    description: 'A coupleType that asserts one Type (the part) has members that have a whole-part relation with a member of the other Type (whole).',
+    superClass: 'CoupleType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  // Time-related concepts
+  TemporalWholePartType: {
+    name: 'TemporalWholePartType',
+    description: 'A couple between two Individual Types where for each member of the whole set, there is a corresponding member of the part set for which a wholePart relationship exists, and conversely',
+    superClass: 'WholePartType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  TemporalBoundaryType: {
+    name: 'TemporalBoundaryType',
+    description: 'The start and end times for the Individual members of a Type.',
+    superClass: 'TemporalWholePartType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  // Measurement concepts
+  Measure: {
+    name: 'Measure',
+    description: 'The magnitude of some attribute of an individual.',
+    superClass: 'Property',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  MeasureType: {
+    name: 'MeasureType',
+    description: 'A category of Measures',
+    superClass: 'IndividualTypeType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  PhysicalMeasure: {
+    name: 'PhysicalMeasure',
+    description: 'A category of measures of spatio-temporal extent of an Individual such as length, mass, energy, velocity, …',
+    superClass: 'Measure',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  PhysicalMeasureType: {
+    name: 'PhysicalMeasureType',
+    description: 'The Powertype of PhysicalMeasure.',
+    superClass: 'MeasureType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  // Representation concepts
+  SignType: {
+    name: 'SignType',
+    description: 'An IndividualType that is the Powertype of Sign.',
+    superClass: 'IndividualType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  Sign: {
+    name: 'Sign',
+    description: 'An Individual that signifies a Thing.',
+    superClass: 'Individual',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  SignTypeType: {
+    name: 'SignTypeType',
+    description: 'The Powertype of SignType.',
+    superClass: 'IndividualTypeType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  // Root class
+  EARootClass: {
+    name: 'EARootClass',
+    description: 'EARootClass class',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
   }
 };
 

@@ -1,61 +1,29 @@
 /**
- * DoDAF 2.0 Standard Meta Model
- * Standard and organizational elements
+ * DoDAF DM2 Standard Meta Model
+ * Standards View (StdV) concepts from DoDAF DM2 ontology
  */
 
 import type { MetaModelClass } from './meta-model-types';
 
-// Standard Domain Elements
+// Standards View (StdV) Elements from DoDAF DM2
 export const STANDARD_METAMODEL: Record<string, MetaModelClass> = {
+  // Core standard concepts
   Standard: {
     name: 'Standard',
-    description: 'A technical or operational standard',
-    superClass: 'Element',
+    description: 'A formal agreement documenting generally accepted specifications or criteria for products, processes, procedures, policies, systems, and/or personnel.',
+    superClass: 'Rule',
     properties: [
       {
-        name: 'standardType',
+        name: 'id',
         type: 'string',
-        required: false,
-        description: 'Type of standard'
+        required: true,
+        description: 'Unique identifier'
       },
       {
-        name: 'authority',
+        name: 'name',
         type: 'string',
-        required: false,
-        description: 'Authority that defines the standard'
-      },
-      {
-        name: 'version',
-        type: 'string',
-        required: false,
-        description: 'Version of the standard'
-      }
-    ],
-    constraints: []
-  },
-
-  StandardProfile: {
-    name: 'StandardProfile',
-    description: 'Profile of standards for a specific domain',
-    superClass: 'Element',
-    properties: [
-      {
-        name: 'profileType',
-        type: 'string',
-        required: false,
-        description: 'Type of standard profile'
-      },
-      {
-        name: 'standards',
-        type: 'array',
-        required: false,
-        description: 'Standards included in the profile'
-      },
-      {
-        name: 'domain',
-        type: 'string',
-        required: false,
-        description: 'Domain the profile applies to'
+        required: true,
+        description: 'Human-readable name'
       }
     ],
     constraints: []
@@ -63,20 +31,211 @@ export const STANDARD_METAMODEL: Record<string, MetaModelClass> = {
 
   TechnicalStandard: {
     name: 'TechnicalStandard',
-    description: 'Technical standard for systems and interfaces',
+    description: 'Technical standards document specific technical methodologies and practices to design and implement.',
     superClass: 'Standard',
     properties: [
       {
-        name: 'technicalDomain',
+        name: 'id',
         type: 'string',
-        required: false,
-        description: 'Technical domain of the standard'
+        required: true,
+        description: 'Unique identifier'
       },
       {
-        name: 'implementationGuidance',
+        name: 'name',
         type: 'string',
-        required: false,
-        description: 'Guidance for implementing the standard'
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  FunctionalStandard: {
+    name: 'FunctionalStandard',
+    description: 'Functional standards set forth rules, conditions, guidelines, and characteristics.',
+    superClass: 'Standard',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  Agreement: {
+    name: 'Agreement',
+    description: 'A consent among parties regarding the terms and conditions of activities that said parties participate in.',
+    superClass: 'Rule',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  Rule: {
+    name: 'Rule',
+    description: 'A principle or condition that governs behavior; a prescribed guide for conduct or action',
+    superClass: 'Guidance',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  // Type concepts
+  StandardType: {
+    name: 'StandardType',
+    description: 'The Powertype of Standard.',
+    superClass: 'RuleType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  TechnicalStandardType: {
+    name: 'TechnicalStandardType',
+    description: 'The Powertype of TechnicalStandard.',
+    superClass: 'StandardType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  FunctionalStandardType: {
+    name: 'FunctionalStandardType',
+    description: 'The Powertype of FunctionalStandard.',
+    superClass: 'StandardType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  AgreementType: {
+    name: 'AgreementType',
+    description: 'The Powertype of Agreement.',
+    superClass: 'RuleType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  RuleType: {
+    name: 'RuleType',
+    description: 'The Powertype of Rule.',
+    superClass: 'GuidanceType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
+      }
+    ],
+    constraints: []
+  },
+
+  // Additional standard-related concepts that may be needed
+  PositionReferenceFrameType: {
+    name: 'PositionReferenceFrameType',
+    description: 'The Powertype of PositionReferenceFrame.',
+    superClass: 'InformationType',
+    properties: [
+      {
+        name: 'id',
+        type: 'string',
+        required: true,
+        description: 'Unique identifier'
+      },
+      {
+        name: 'name',
+        type: 'string',
+        required: true,
+        description: 'Human-readable name'
       }
     ],
     constraints: []
@@ -99,3 +258,4 @@ export const STANDARD_RELATIONSHIP_METAMODEL: Record<string, MetaModelClass> = {
     constraints: []
   }
 };
+
