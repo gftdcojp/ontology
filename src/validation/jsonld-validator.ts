@@ -2,6 +2,7 @@ import * as jsonld from 'jsonld';
 import { TypeCompiler } from '@sinclair/typebox/compiler';
 import { DoDAFSchema } from '../ontology/dodaf-schema';
 import type { DoDAFArchitecture } from '../types/dodaf';
+import { validateElementAgainstMetaModel, validateRelationshipAgainstMetaModel } from '../ontology/dodaf-metamodel';
 
 /**
  * JSON-LD Validator for DoDAF 2.0 Ontology

@@ -11,6 +11,8 @@ A TypeScript library that provides type-safe DoDAF 2.0 (Department of Defense Ar
 - **Runtime Validation**: TypeBox-powered validation for DoDAF architecture instances
 - **JSON-LD Compatible**: Semantic web integration with JSON-LD context and expansion
 - **DoDAF 2.0 Compliant**: Implements all standard views (AV, OV, SV, TV, DIV) and products
+- **Meta Model Support**: Comprehensive DoDAF 2.0 meta model with element and relationship types
+- **Semantic Validation**: Meta model compliance validation for architecture elements
 - **Extensible**: Easy to extend with custom views, products, and elements
 - **RDF Support**: Convert to RDF triples for advanced semantic processing
 
@@ -82,7 +84,7 @@ let updatedArchitecture = addViewToArchitecture(architecture, 'OV');
 // Add a custom product to Operational View
 updatedArchitecture = addProductToView(
   updatedArchitecture,
-  `${architecture['@id']}/view/OV`,
+  `${architecture.id}/view/OV`,
   {
     number: 'OV-7',
     name: 'Custom Operational Product',
@@ -93,10 +95,10 @@ updatedArchitecture = addProductToView(
   }
 );
 
-// Add elements to products
+// Add elements to products with meta model types
 updatedArchitecture = addElementToProduct(
   updatedArchitecture,
-  `${architecture['@id']}/view/OV/product/OV-7`,
+  `${architecture.id}/view/OV/product/OV-7`,
   {
     id: 'operation-alpha',
     type: 'OperationalActivity',
@@ -104,10 +106,46 @@ updatedArchitecture = addElementToProduct(
     description: 'Primary operational activity',
     properties: {
       priority: 'high',
-      duration: '2 hours'
+      estimatedDuration: '2 hours'
     }
   }
 );
+```
+
+### Meta Model Validation
+
+```typescript
+import {
+  validateArchitecture,
+  validateArchitectureDetailed,
+  validateElementAgainstMetaModel,
+  ElementType,
+  RelationshipType
+} from '@gftdcojp/ai-gftd-ontology-typebox';
+
+// Validate entire architecture with meta model compliance
+const result = await validateArchitecture(architecture);
+if (result.valid) {
+  console.log('Architecture is valid and meta model compliant!');
+} else {
+  console.log('Validation errors:', result.errors);
+}
+
+// Get detailed validation report
+const report = await validateArchitectureDetailed(architecture);
+console.log(`Validated ${report.summary.elementsValidated} elements`);
+console.log(`Validated ${report.summary.relationshipsValidated} relationships`);
+
+// Validate individual elements against meta model
+const elementValidation = validateElementAgainstMetaModel({
+  id: 'activity-1',
+  type: 'OperationalActivity',
+  name: 'Sample Activity',
+  description: 'A sample operational activity',
+  properties: { priority: 'high' }
+});
+
+console.log('Element validation result:', elementValidation.valid);
 ```
 
 ### JSON-LD Export and RDF Conversion

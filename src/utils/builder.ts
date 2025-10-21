@@ -1,5 +1,6 @@
 import { DoDAFJSONLDValidator } from '../validation/jsonld-validator';
 import { DODAF_VIEWS, getProductsForView } from '../ontology/dodaf-views';
+import { validateElementAgainstMetaModel, validateRelationshipAgainstMetaModel } from '../ontology/dodaf-metamodel';
 import type { DoDAFArchitecture, View, Product, Element, Relationship } from '../types/dodaf';
 
 /**
@@ -169,13 +170,113 @@ export function addRelationshipToProduct(
 }
 
 /**
- * Validate the entire architecture
+ * Validate the entire architecture including meta model compliance
  */
 export async function validateArchitecture(architecture: DoDAFArchitecture) {
-  // Convert to JSON-LD format for validation
-  const jsonldString = exportAsJSONLD(architecture);
-  const jsonldObject = JSON.parse(jsonldString);
-  return await DoDAFJSONLDValidator.validate(jsonldObject);
+  const errors: string[] = [];
+
+  // Validate elements against meta model
+  for (const view of architecture.views) {
+    for (const product of view.products) {
+      for (const element of product.elements) {
+        const elementValidation = validateElementAgainstMetaModel(element);
+        if (!elementValidation.valid) {
+          errors.push(...elementValidation.errors.map(err =>
+            `Element ${element.id} in ${product.number}: ${err}`
+          ));
+        }
+      }
+
+      for (const relationship of product.relationships) {
+        const relationshipValidation = validateRelationshipAgainstMetaModel(relationship);
+        if (!relationshipValidation.valid) {
+          errors.push(...relationshipValidation.errors.map(err =>
+            `Relationship ${relationship.id} in ${product.number}: ${err}`
+          ));
+        }
+      }
+    }
+  }
+
+  // If meta model validation passes, perform JSON-LD validation
+  if (errors.length === 0) {
+    try {
+      // Convert to JSON-LD format for validation
+      const jsonldString = exportAsJSONLD(architecture);
+      const jsonldObject = JSON.parse(jsonldString);
+      const jsonldResult = await DoDAFJSONLDValidator.validate(jsonldObject);
+
+      if (!jsonldResult.valid) {
+        errors.push(...jsonldResult.errors);
+        return { valid: false, errors };
+      }
+
+      return {
+        valid: true,
+        errors: [],
+        normalized: jsonldResult.normalized
+      };
+    } catch (error) {
+      errors.push(`JSON-LD validation error: ${error instanceof Error ? error.message : String(error)}`);
+      return { valid: false, errors };
+    }
+  }
+
+  return { valid: false, errors };
+}
+
+/**
+ * Validate architecture with detailed reporting
+ */
+export async function validateArchitectureDetailed(architecture: DoDAFArchitecture) {
+  const result = await validateArchitecture(architecture);
+
+  const report = {
+    summary: {
+      valid: result.valid,
+      totalErrors: result.errors.length,
+      elementsValidated: 0,
+      relationshipsValidated: 0
+    },
+    errors: result.errors,
+    metaModelValidation: {
+      elements: [] as Array<{ id: string; type: string; valid: boolean; errors: string[] }>,
+      relationships: [] as Array<{ id: string; type: string; valid: boolean; errors: string[] }>
+    },
+    jsonLdValidation: {
+      valid: result.valid && result.errors.length === 0,
+      normalized: result.normalized
+    }
+  };
+
+  // Collect detailed validation results
+  for (const view of architecture.views) {
+    for (const product of view.products) {
+      for (const element of product.elements) {
+        report.summary.elementsValidated++;
+        const elementValidation = validateElementAgainstMetaModel(element);
+        report.metaModelValidation.elements.push({
+          id: element.id,
+          type: element.type,
+          valid: elementValidation.valid,
+          errors: elementValidation.errors
+        });
+      }
+
+      for (const relationship of product.relationships) {
+        report.summary.relationshipsValidated++;
+        const relationshipValidation = validateRelationshipAgainstMetaModel(relationship);
+        report.metaModelValidation.relationships.push({
+          id: relationship.id,
+          type: relationship.type,
+          valid: relationshipValidation.valid,
+          errors: relationshipValidation.errors
+        });
+      }
+    }
+  }
+
+  return report;
 }
 
 /**
