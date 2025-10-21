@@ -18,7 +18,7 @@ import { ORGANIZATIONAL_METAMODEL, ORGANIZATIONAL_RELATIONSHIP_METAMODEL } from 
 import { INFRASTRUCTURE_METAMODEL, INFRASTRUCTURE_RELATIONSHIP_METAMODEL } from './infrastructure-metamodel';
 import { SECURITY_METAMODEL, SECURITY_RELATIONSHIP_METAMODEL } from './security-metamodel';
 
-// Unified DoDAF 2.0 Meta Model
+// Unified DoDAF 2.0 Meta Model - Import all modules
 export const DODAF_CORE_METAMODEL = {
   ...CORE_METAMODEL,
   ...OPERATIONAL_METAMODEL,
