@@ -1563,6 +1563,809 @@ describe('DoDAF 2.0 Ontology', () => {
       expect(result.valid).toBe(true);
       expect(result.errors).toHaveLength(0);
     });
+
+    it('should validate Logical Model elements', async () => {
+      const { validateElementAgainstMetaModel } = await import('../ontology/dodaf-metamodel');
+
+      // Test Logical Architecture
+      const logicalArchValidation = validateElementAgainstMetaModel({
+        id: 'logical-arch-1',
+        type: 'LogicalArchitecture',
+        name: 'Enterprise Logical Architecture',
+        description: 'Logical architecture for enterprise',
+        properties: {
+          architectureType: 'SOA',
+          components: ['service-1', 'service-2'],
+          interfaces: ['interface-1'],
+          flows: ['flow-1']
+        }
+      });
+
+      expect(logicalArchValidation.valid).toBe(true);
+
+      // Test Logical Activity
+      const logicalActivityValidation = validateElementAgainstMetaModel({
+        id: 'logical-activity-1',
+        type: 'LogicalActivity',
+        name: 'Process Order',
+        description: 'Logical activity for processing orders',
+        properties: {
+          activityType: 'business',
+          inputs: ['order'],
+          outputs: ['processed_order'],
+          performer: 'order_service'
+        }
+      });
+
+      expect(logicalActivityValidation.valid).toBe(true);
+
+      // Test Logical System
+      const logicalSystemValidation = validateElementAgainstMetaModel({
+        id: 'logical-system-1',
+        type: 'LogicalSystem',
+        name: 'Order Management System',
+        description: 'Logical system for order management',
+        properties: {
+          systemType: 'application',
+          components: ['order_component'],
+          interfaces: ['order_interface'],
+          functions: ['process_order', 'validate_order']
+        }
+      });
+
+      expect(logicalSystemValidation.valid).toBe(true);
+
+      // Test Logical Interface
+      const logicalInterfaceValidation = validateElementAgainstMetaModel({
+        id: 'logical-interface-1',
+        type: 'LogicalInterface',
+        name: 'Order Processing Interface',
+        description: 'Interface for order processing',
+        properties: {
+          interfaceType: 'service',
+          protocol: 'REST',
+          operations: ['create_order', 'update_order'],
+          dataTypes: ['Order', 'OrderResponse']
+        }
+      });
+
+      expect(logicalInterfaceValidation.valid).toBe(true);
+
+      // Test Logical Flow
+      const logicalFlowValidation = validateElementAgainstMetaModel({
+        id: 'logical-flow-1',
+        type: 'LogicalFlow',
+        name: 'Order Data Flow',
+        description: 'Flow of order data',
+        properties: {
+          flowType: 'data',
+          source: 'input_service',
+          target: 'order_service',
+          content: 'order_data'
+        }
+      });
+
+      expect(logicalFlowValidation.valid).toBe(true);
+
+      // Test Logical Component
+      const logicalComponentValidation = validateElementAgainstMetaModel({
+        id: 'logical-component-1',
+        type: 'LogicalComponent',
+        name: 'Order Processor',
+        description: 'Component for processing orders',
+        properties: {
+          componentType: 'business_logic',
+          interfaces: ['order_interface'],
+          functions: ['process_order'],
+          dependencies: ['validation_component']
+        }
+      });
+
+      expect(logicalComponentValidation.valid).toBe(true);
+
+      // Test Logical Service
+      const logicalServiceValidation = validateElementAgainstMetaModel({
+        id: 'logical-service-1',
+        type: 'LogicalService',
+        name: 'Order Service',
+        description: 'Service for order management',
+        properties: {
+          serviceType: 'business',
+          serviceLevel: 'gold',
+          operations: ['create', 'update', 'delete'],
+          contracts: ['sla_gold']
+        }
+      });
+
+      expect(logicalServiceValidation.valid).toBe(true);
+
+      // Test Logical Data Flow
+      const logicalDataFlowValidation = validateElementAgainstMetaModel({
+        id: 'logical-data-flow-1',
+        type: 'LogicalDataFlow',
+        name: 'Customer Data Flow',
+        description: 'Flow of customer data',
+        properties: {
+          dataType: 'customer',
+          dataFormat: 'JSON',
+          dataSize: '1KB'
+        }
+      });
+
+      expect(logicalDataFlowValidation.valid).toBe(true);
+
+      // Test Logical Control Flow
+      const logicalControlFlowValidation = validateElementAgainstMetaModel({
+        id: 'logical-control-flow-1',
+        type: 'LogicalControlFlow',
+        name: 'Order Validation Control',
+        description: 'Control flow for order validation',
+        properties: {
+          controlType: 'sequential',
+          triggerCondition: 'order_received'
+        }
+      });
+
+      expect(logicalControlFlowValidation.valid).toBe(true);
+
+      // Test Logical Information Flow
+      const logicalInfoFlowValidation = validateElementAgainstMetaModel({
+        id: 'logical-info-flow-1',
+        type: 'LogicalInformationFlow',
+        name: 'Order Status Information',
+        description: 'Information flow for order status',
+        properties: {
+          informationType: 'status',
+          informationCategory: 'order',
+          securityClassification: 'internal'
+        }
+      });
+
+      expect(logicalInfoFlowValidation.valid).toBe(true);
+
+      // Test Logical Operational Activity
+      const logicalOpActivityValidation = validateElementAgainstMetaModel({
+        id: 'logical-op-activity-1',
+        type: 'LogicalOperationalActivity',
+        name: 'Customer Service',
+        description: 'Operational activity for customer service',
+        properties: {
+          businessProcess: 'customer_management',
+          lane: 'customer_service',
+          milestone: false
+        }
+      });
+
+      expect(logicalOpActivityValidation.valid).toBe(true);
+
+      // Test Logical System Function
+      const logicalSysFunctionValidation = validateElementAgainstMetaModel({
+        id: 'logical-sys-function-1',
+        type: 'LogicalSystemFunction',
+        name: 'Order Validation Function',
+        description: 'Function for validating orders',
+        properties: {
+          functionType: 'validation',
+          inputs: ['order'],
+          outputs: ['valid_order'],
+          performanceRequirements: ['response_time_100ms']
+        }
+      });
+
+      expect(logicalSysFunctionValidation.valid).toBe(true);
+
+      // Test Logical Node
+      const logicalNodeValidation = validateElementAgainstMetaModel({
+        id: 'logical-node-1',
+        type: 'LogicalNode',
+        name: 'Application Server',
+        description: 'Logical node for application hosting',
+        properties: {
+          nodeType: 'server',
+          location: 'data_center_1',
+          components: ['order_service'],
+          connectors: ['network_connector']
+        }
+      });
+
+      expect(logicalNodeValidation.valid).toBe(true);
+
+      // Test Logical Constraint
+      const logicalConstraintValidation = validateElementAgainstMetaModel({
+        id: 'logical-constraint-1',
+        type: 'LogicalConstraint',
+        name: 'Order Processing Time',
+        description: 'Constraint on order processing time',
+        properties: {
+          constraintType: 'performance',
+          expression: 'processing_time <= 100ms',
+          scope: 'order_service',
+          severity: 'critical'
+        }
+      });
+
+      expect(logicalConstraintValidation.valid).toBe(true);
+
+      // Test Logical Business Rule
+      const logicalBusinessRuleValidation = validateElementAgainstMetaModel({
+        id: 'logical-business-rule-1',
+        type: 'LogicalBusinessRule',
+        name: 'Order Validation Rule',
+        description: 'Business rule for order validation',
+        properties: {
+          ruleType: 'validation',
+          ruleCategory: 'business',
+          enforcementLevel: 'mandatory'
+        }
+      });
+
+      expect(logicalBusinessRuleValidation.valid).toBe(true);
+
+      // Test Logical Policy
+      const logicalPolicyValidation = validateElementAgainstMetaModel({
+        id: 'logical-policy-1',
+        type: 'LogicalPolicy',
+        name: 'Data Retention Policy',
+        description: 'Policy for data retention',
+        properties: {
+          policyType: 'data_management',
+          policyDomain: 'enterprise',
+          enforcementMechanism: 'automated'
+        }
+      });
+
+      expect(logicalPolicyValidation.valid).toBe(true);
+
+      // Test Logical Requirement
+      const logicalRequirementValidation = validateElementAgainstMetaModel({
+        id: 'logical-requirement-1',
+        type: 'LogicalRequirement',
+        name: 'System Availability',
+        description: 'Requirement for system availability',
+        properties: {
+          requirementType: 'non_functional',
+          priority: 'high',
+          verificationMethod: 'monitoring'
+        }
+      });
+
+      expect(logicalRequirementValidation.valid).toBe(true);
+
+      // Test Logical Capability
+      const logicalCapabilityValidation = validateElementAgainstMetaModel({
+        id: 'logical-capability-1',
+        type: 'LogicalCapability',
+        name: 'Order Processing Capability',
+        description: 'Capability for processing orders',
+        properties: {
+          capabilityType: 'business',
+          capabilityLevel: 'advanced',
+          functions: ['process_order', 'validate_order']
+        }
+      });
+
+      expect(logicalCapabilityValidation.valid).toBe(true);
+
+      // Test Logical Service Interface
+      const logicalServiceInterfaceValidation = validateElementAgainstMetaModel({
+        id: 'logical-service-interface-1',
+        type: 'LogicalServiceInterface',
+        name: 'Order Service Interface',
+        description: 'Interface for order service',
+        properties: {
+          serviceContract: 'order_contract',
+          serviceLevel: 'gold'
+        }
+      });
+
+      expect(logicalServiceInterfaceValidation.valid).toBe(true);
+
+      // Test Logical Data Interface
+      const logicalDataInterfaceValidation = validateElementAgainstMetaModel({
+        id: 'logical-data-interface-1',
+        type: 'LogicalDataInterface',
+        name: 'Customer Data Interface',
+        description: 'Interface for customer data',
+        properties: {
+          dataFormat: 'JSON',
+          dataSchema: 'customer_schema'
+        }
+      });
+
+      expect(logicalDataInterfaceValidation.valid).toBe(true);
+
+      // Test Logical System Interface
+      const logicalSystemInterfaceValidation = validateElementAgainstMetaModel({
+        id: 'logical-system-interface-1',
+        type: 'LogicalSystemInterface',
+        name: 'Order System Interface',
+        description: 'Interface for order system',
+        properties: {
+          systemProtocol: 'SOAP',
+          systemStandard: 'WS-I'
+        }
+      });
+
+      expect(logicalSystemInterfaceValidation.valid).toBe(true);
+
+      // Test Logical Network
+      const logicalNetworkValidation = validateElementAgainstMetaModel({
+        id: 'logical-network-1',
+        type: 'LogicalNetwork',
+        name: 'Enterprise Network',
+        description: 'Logical network for enterprise',
+        properties: {
+          networkType: 'enterprise',
+          topology: 'hierarchical',
+          nodes: ['server_1', 'server_2'],
+          links: ['link_1', 'link_2']
+        }
+      });
+
+      expect(logicalNetworkValidation.valid).toBe(true);
+
+      // Test Logical Protocol
+      const logicalProtocolValidation = validateElementAgainstMetaModel({
+        id: 'logical-protocol-1',
+        type: 'LogicalProtocol',
+        name: 'REST Protocol',
+        description: 'REST protocol definition',
+        properties: {
+          protocolType: 'application',
+          protocolStandard: 'REST',
+          messageFormats: ['JSON', 'XML']
+        }
+      });
+
+      expect(logicalProtocolValidation.valid).toBe(true);
+
+      // Test Logical Message
+      const logicalMessageValidation = validateElementAgainstMetaModel({
+        id: 'logical-message-1',
+        type: 'LogicalMessage',
+        name: 'Order Request Message',
+        description: 'Message for order requests',
+        properties: {
+          messageType: 'request',
+          messageFormat: 'JSON',
+          payload: 'order_data'
+        }
+      });
+
+      expect(logicalMessageValidation.valid).toBe(true);
+
+      // Test Logical Event
+      const logicalEventValidation = validateElementAgainstMetaModel({
+        id: 'logical-event-1',
+        type: 'LogicalEvent',
+        name: 'Order Received Event',
+        description: 'Event when order is received',
+        properties: {
+          eventType: 'business',
+          eventSource: 'order_service',
+          triggerConditions: ['order_submitted']
+        }
+      });
+
+      expect(logicalEventValidation.valid).toBe(true);
+
+      // Test Logical State
+      const logicalStateValidation = validateElementAgainstMetaModel({
+        id: 'logical-state-1',
+        type: 'LogicalState',
+        name: 'Order Processing State',
+        description: 'State for order processing',
+        properties: {
+          stateType: 'process',
+          initialState: false,
+          finalState: false
+        }
+      });
+
+      expect(logicalStateValidation.valid).toBe(true);
+
+      // Test Logical Transition
+      const logicalTransitionValidation = validateElementAgainstMetaModel({
+        id: 'logical-transition-1',
+        type: 'LogicalTransition',
+        name: 'Order to Processing',
+        description: 'Transition from order to processing',
+        properties: {
+          transitionType: 'automatic',
+          sourceState: 'order_received',
+          targetState: 'processing',
+          trigger: 'order_validated',
+          guard: 'payment_confirmed'
+        }
+      });
+
+      expect(logicalTransitionValidation.valid).toBe(true);
+
+      // Test Logical Condition
+      const logicalConditionValidation = validateElementAgainstMetaModel({
+        id: 'logical-condition-1',
+        type: 'LogicalCondition',
+        name: 'Payment Valid Condition',
+        description: 'Condition for payment validation',
+        properties: {
+          conditionType: 'business',
+          conditionExpression: 'payment_amount > 0'
+        }
+      });
+
+      expect(logicalConditionValidation.valid).toBe(true);
+
+      // Test Logical Action
+      const logicalActionValidation = validateElementAgainstMetaModel({
+        id: 'logical-action-1',
+        type: 'LogicalAction',
+        name: 'Process Payment Action',
+        description: 'Action for processing payment',
+        properties: {
+          actionType: 'business',
+          actionSequence: 'validate_payment',
+          preConditions: ['payment_received'],
+          postConditions: ['payment_processed']
+        }
+      });
+
+      expect(logicalActionValidation.valid).toBe(true);
+
+      // Test Logical Decision
+      const logicalDecisionValidation = validateElementAgainstMetaModel({
+        id: 'logical-decision-1',
+        type: 'LogicalDecision',
+        name: 'Payment Method Decision',
+        description: 'Decision for payment method',
+        properties: {
+          decisionType: 'business',
+          decisionCriteria: ['payment_amount', 'customer_credit'],
+          alternatives: ['credit_card', 'bank_transfer']
+        }
+      });
+
+      expect(logicalDecisionValidation.valid).toBe(true);
+
+      // Test Logical Merge
+      const logicalMergeValidation = validateElementAgainstMetaModel({
+        id: 'logical-merge-1',
+        type: 'LogicalMerge',
+        name: 'Order Processing Merge',
+        description: 'Merge point for order processing',
+        properties: {
+          mergeType: 'synchronization',
+          inputFlows: ['validation_flow', 'payment_flow'],
+          mergeCondition: 'all_completed'
+        }
+      });
+
+      expect(logicalMergeValidation.valid).toBe(true);
+
+      // Test Logical Fork
+      const logicalForkValidation = validateElementAgainstMetaModel({
+        id: 'logical-fork-1',
+        type: 'LogicalFork',
+        name: 'Order Processing Fork',
+        description: 'Fork point for order processing',
+        properties: {
+          forkType: 'parallel',
+          inputFlow: 'order_received',
+          outputFlows: ['validation_flow', 'payment_flow']
+        }
+      });
+
+      expect(logicalForkValidation.valid).toBe(true);
+
+      // Test Logical Join
+      const logicalJoinValidation = validateElementAgainstMetaModel({
+        id: 'logical-join-1',
+        type: 'LogicalJoin',
+        name: 'Order Processing Join',
+        description: 'Join point for order processing',
+        properties: {
+          joinType: 'synchronization',
+          inputFlows: ['validation_flow', 'payment_flow'],
+          joinCondition: 'all_completed'
+        }
+      });
+
+      expect(logicalJoinValidation.valid).toBe(true);
+
+      // Test Logical Start
+      const logicalStartValidation = validateElementAgainstMetaModel({
+        id: 'logical-start-1',
+        type: 'LogicalStart',
+        name: 'Order Process Start',
+        description: 'Start of order process',
+        properties: {
+          startType: 'trigger',
+          trigger: 'order_received'
+        }
+      });
+
+      expect(logicalStartValidation.valid).toBe(true);
+
+      // Test Logical End
+      const logicalEndValidation = validateElementAgainstMetaModel({
+        id: 'logical-end-1',
+        type: 'LogicalEnd',
+        name: 'Order Process End',
+        description: 'End of order process',
+        properties: {
+          endType: 'completion',
+          terminationCondition: 'order_shipped'
+        }
+      });
+
+      expect(logicalEndValidation.valid).toBe(true);
+    });
+
+    it('should validate Logical Model relationships', async () => {
+      const { validateRelationshipAgainstMetaModel } = await import('../ontology/dodaf-metamodel');
+
+      // Test Logical Activity Relationship
+      const logicalActivityRelValidation = validateRelationshipAgainstMetaModel({
+        id: 'logical-activity-rel-1',
+        type: 'LogicalActivityRelationship',
+        name: 'Order Processing Sequence',
+        description: 'Sequence relationship between activities',
+        sourceId: 'receive_order',
+        targetId: 'validate_order',
+        properties: {
+          relationshipType: 'sequence',
+          sequence: '1'
+        }
+      });
+
+      expect(logicalActivityRelValidation.valid).toBe(true);
+
+      // Test Logical System Relationship
+      const logicalSystemRelValidation = validateRelationshipAgainstMetaModel({
+        id: 'logical-system-rel-1',
+        type: 'LogicalSystemRelationship',
+        name: 'System Dependency',
+        description: 'Dependency between systems',
+        sourceId: 'order_system',
+        targetId: 'inventory_system',
+        properties: {
+          relationshipType: 'dependency'
+        }
+      });
+
+      expect(logicalSystemRelValidation.valid).toBe(true);
+
+      // Test Logical Flow Relationship
+      const logicalFlowRelValidation = validateRelationshipAgainstMetaModel({
+        id: 'logical-flow-rel-1',
+        type: 'LogicalFlowRelationship',
+        name: 'Data Flow Connection',
+        description: 'Connection between data flows',
+        sourceId: 'input_flow',
+        targetId: 'output_flow',
+        properties: {
+          relationshipType: 'connection'
+        }
+      });
+
+      expect(logicalFlowRelValidation.valid).toBe(true);
+
+      // Test Logical Architecture Relationship
+      const logicalArchRelValidation = validateRelationshipAgainstMetaModel({
+        id: 'logical-arch-rel-1',
+        type: 'LogicalArchitectureRelationship',
+        name: 'Architecture Layer',
+        description: 'Layer relationship in architecture',
+        sourceId: 'business_layer',
+        targetId: 'application_layer',
+        properties: {
+          relationshipType: 'layer'
+        }
+      });
+
+      expect(logicalArchRelValidation.valid).toBe(true);
+
+      // Test Logical Sequence Flow
+      const logicalSequenceFlowValidation = validateRelationshipAgainstMetaModel({
+        id: 'logical-sequence-flow-1',
+        type: 'LogicalSequenceFlow',
+        name: 'Process Sequence',
+        description: 'Sequence flow in process',
+        sourceId: 'activity_1',
+        targetId: 'activity_2',
+        properties: {
+          flowType: 'sequential'
+        }
+      });
+
+      expect(logicalSequenceFlowValidation.valid).toBe(true);
+
+      // Test Logical Message Flow
+      const logicalMessageFlowValidation = validateRelationshipAgainstMetaModel({
+        id: 'logical-message-flow-1',
+        type: 'LogicalMessageFlow',
+        name: 'Service Message',
+        description: 'Message flow between services',
+        sourceId: 'service_1',
+        targetId: 'service_2',
+        properties: {
+          flowType: 'request_response'
+        }
+      });
+
+      expect(logicalMessageFlowValidation.valid).toBe(true);
+
+      // Test Logical Data Association
+      const logicalDataAssociationValidation = validateRelationshipAgainstMetaModel({
+        id: 'logical-data-assoc-1',
+        type: 'LogicalDataAssociation',
+        name: 'Data Association',
+        description: 'Association between data elements',
+        sourceId: 'customer_data',
+        targetId: 'order_data',
+        properties: {
+          associationType: 'reference'
+        }
+      });
+
+      expect(logicalDataAssociationValidation.valid).toBe(true);
+    });
+
+    it('should validate complex Logical Model architecture', async () => {
+      let architecture = createDoDAFArchitecture({
+        id: 'logical-model-architecture',
+        name: 'Enterprise Logical Architecture',
+        description: 'Architecture demonstrating logical model integration',
+        author: 'Logical Architect',
+        organization: 'Enterprise',
+        includeAllViews: true
+      });
+
+      // Add Logical Architecture
+      architecture = addElementToProduct(
+        architecture,
+        `${architecture.id}/view/SV/product/SV-1`,
+        {
+          id: 'logical-architecture',
+          type: 'LogicalArchitecture',
+          name: 'Enterprise Logical Architecture',
+          description: 'Logical architecture for enterprise systems',
+          properties: {
+            architectureType: 'SOA',
+            components: ['order_service', 'customer_service'],
+            interfaces: ['order_interface'],
+            flows: ['order_flow']
+          }
+        }
+      );
+
+      // Add Logical System
+      architecture = addElementToProduct(
+        architecture,
+        `${architecture.id}/view/SV/product/SV-1`,
+        {
+          id: 'order_system',
+          type: 'LogicalSystem',
+          name: 'Order Management System',
+          description: 'System for managing orders',
+          properties: {
+            systemType: 'application',
+            components: ['order_component'],
+            interfaces: ['order_interface'],
+            functions: ['process_order']
+          }
+        }
+      );
+
+      // Add Logical Activity
+      architecture = addElementToProduct(
+        architecture,
+        `${architecture.id}/view/OV/product/OV-1`,
+        {
+          id: 'process_order_activity',
+          type: 'LogicalActivity',
+          name: 'Process Order',
+          description: 'Activity for processing customer orders',
+          properties: {
+            activityType: 'business',
+            inputs: ['customer_order'],
+            outputs: ['processed_order'],
+            performer: 'order_system'
+          }
+        }
+      );
+
+      // Add Logical Interface
+      architecture = addElementToProduct(
+        architecture,
+        `${architecture.id}/view/SV/product/SV-1`,
+        {
+          id: 'order_interface',
+          type: 'LogicalInterface',
+          name: 'Order Processing Interface',
+          description: 'Interface for order processing',
+          properties: {
+            interfaceType: 'service',
+            protocol: 'REST',
+            operations: ['create_order', 'update_order'],
+            dataTypes: ['Order', 'OrderResponse']
+          }
+        }
+      );
+
+      // Add Logical Data Flow
+      architecture = addElementToProduct(
+        architecture,
+        `${architecture.id}/view/SV/product/SV-1`,
+        {
+          id: 'order_data_flow',
+          type: 'LogicalDataFlow',
+          name: 'Order Data Flow',
+          description: 'Flow of order data',
+          properties: {
+            dataType: 'order',
+            dataFormat: 'JSON',
+            dataSize: '2KB'
+          }
+        }
+      );
+
+      // Add Logical System Relationship
+      architecture = addRelationshipToProduct(
+        architecture,
+        `${architecture.id}/view/SV/product/SV-1`,
+        {
+          id: 'system-relationship',
+          type: 'LogicalSystemRelationship',
+          name: 'System Dependency',
+          description: 'Dependency between order and customer systems',
+          sourceId: 'order_system',
+          targetId: 'customer_system',
+          properties: {
+            relationshipType: 'uses'
+          }
+        }
+      );
+
+      // Add Logical Activity Relationship
+      architecture = addRelationshipToProduct(
+        architecture,
+        `${architecture.id}/view/OV/product/OV-1`,
+        {
+          id: 'activity-relationship',
+          type: 'LogicalActivityRelationship',
+          name: 'Activity Sequence',
+          description: 'Sequence between activities',
+          sourceId: 'receive_order',
+          targetId: 'process_order_activity',
+          properties: {
+            relationshipType: 'sequence',
+            sequence: '2'
+          }
+        }
+      );
+
+      // Add Logical Flow Relationship
+      architecture = addRelationshipToProduct(
+        architecture,
+        `${architecture.id}/view/SV/product/SV-1`,
+        {
+          id: 'flow-relationship',
+          type: 'LogicalFlowRelationship',
+          name: 'Flow Connection',
+          description: 'Connection between data flows',
+          sourceId: 'input_flow',
+          targetId: 'order_data_flow',
+          properties: {
+            relationshipType: 'connection'
+          }
+        }
+      );
+
+      const result = await validateArchitecture(architecture);
+
+      expect(result.valid).toBe(true);
+      expect(result.errors).toHaveLength(0);
+    });
   });
 
   describe('Standard Views', () => {

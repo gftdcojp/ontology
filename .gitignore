@@ -113,3 +113,5 @@ playwright/.cache/
 # Lock files (keep pnpm-lock.yaml but ignore others if switching package managers)
 # yarn.lock
 # package-lock.json
+
+material

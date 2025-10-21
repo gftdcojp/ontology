@@ -1,35 +1,49 @@
 /**
- * DoDAF 2.0 Meta Model Definitions
- * Based on DoD Architecture Framework Version 2.0 Meta Model
+ * DoDAF 2.0 Meta Model Index
+ * Unified access to all DoDAF 2.0 meta model definitions
  */
 
-import type { ElementType, RelationshipType } from '../types/dodaf';
+export type { MetaModelClass, MetaModelProperty, MetaModelConstraint } from './meta-model-types';
+export type { ElementType, RelationshipType } from '../types/dodaf';
 
-// DoDAF 2.0 Meta Model Classes and their Properties
-export interface MetaModelClass {
-  name: string;
-  description: string;
-  superClass?: string;
-  properties: MetaModelProperty[];
-  constraints: MetaModelConstraint[];
-}
+// Import all meta model modules
+import { CORE_METAMODEL, CORE_RELATIONSHIP_METAMODEL } from './core-metamodel';
+import { OPERATIONAL_METAMODEL, OPERATIONAL_RELATIONSHIP_METAMODEL } from './operational-metamodel';
+import { SYSTEM_METAMODEL, SYSTEM_RELATIONSHIP_METAMODEL } from './system-metamodel';
+import { DATA_METAMODEL, DATA_RELATIONSHIP_METAMODEL } from './data-metamodel';
+import { SERVICE_METAMODEL, SERVICE_RELATIONSHIP_METAMODEL } from './service-metamodel';
+import { LOGICAL_METAMODEL, LOGICAL_RELATIONSHIP_METAMODEL } from './logical-metamodel';
+import { STANDARD_METAMODEL, STANDARD_RELATIONSHIP_METAMODEL } from './standard-metamodel';
+import { ORGANIZATIONAL_METAMODEL, ORGANIZATIONAL_RELATIONSHIP_METAMODEL } from './organizational-metamodel';
+import { INFRASTRUCTURE_METAMODEL, INFRASTRUCTURE_RELATIONSHIP_METAMODEL } from './infrastructure-metamodel';
+import { SECURITY_METAMODEL, SECURITY_RELATIONSHIP_METAMODEL } from './security-metamodel';
 
-export interface MetaModelProperty {
-  name: string;
-  type: 'string' | 'boolean' | 'number' | 'date' | 'reference' | 'array';
-  required: boolean;
-  description: string;
-  constraints?: MetaModelConstraint[];
-}
+// Unified DoDAF 2.0 Meta Model
+export const DODAF_CORE_METAMODEL = {
+  ...CORE_METAMODEL,
+  ...OPERATIONAL_METAMODEL,
+  ...SYSTEM_METAMODEL,
+  ...DATA_METAMODEL,
+  ...SERVICE_METAMODEL,
+  ...LOGICAL_METAMODEL,
+  ...STANDARD_METAMODEL,
+  ...ORGANIZATIONAL_METAMODEL,
+  ...INFRASTRUCTURE_METAMODEL,
+  ...SECURITY_METAMODEL
+} as const;
 
-export interface MetaModelConstraint {
-  type: 'cardinality' | 'valueRange' | 'pattern' | 'reference' | 'custom';
-  description: string;
-  parameters?: Record<string, any>;
-}
-
-// DoDAF 2.0 Core Meta Model (主要な要素のみ定義)
-export const DODAF_CORE_METAMODEL: Partial<Record<ElementType, MetaModelClass>> = {
+export const DODAF_RELATIONSHIP_METAMODEL = {
+  ...CORE_RELATIONSHIP_METAMODEL,
+  ...OPERATIONAL_RELATIONSHIP_METAMODEL,
+  ...SYSTEM_RELATIONSHIP_METAMODEL,
+  ...DATA_RELATIONSHIP_METAMODEL,
+  ...SERVICE_RELATIONSHIP_METAMODEL,
+  ...LOGICAL_RELATIONSHIP_METAMODEL,
+  ...STANDARD_RELATIONSHIP_METAMODEL,
+  ...ORGANIZATIONAL_RELATIONSHIP_METAMODEL,
+  ...INFRASTRUCTURE_RELATIONSHIP_METAMODEL,
+  ...SECURITY_RELATIONSHIP_METAMODEL
+} as const;
   // Core Architecture Elements
   ArchitectureDescription: {
     name: 'ArchitectureDescription',
