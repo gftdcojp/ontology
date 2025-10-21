@@ -2366,6 +2366,371 @@ describe('DoDAF 2.0 Ontology', () => {
       expect(result.valid).toBe(true);
       expect(result.errors).toHaveLength(0);
     });
+
+    it('should validate DM2 Principal Architectural Constructs elements', async () => {
+      const { validateElementAgainstMetaModel } = await import('../ontology/dodaf-metamodel');
+
+      // Test Performer
+      const performerValidation = validateElementAgainstMetaModel({
+        id: 'performer-1',
+        type: 'Performer',
+        name: 'Enterprise Architect',
+        description: 'Human performer responsible for architecture design',
+        properties: {
+          performerType: 'human',
+          capabilities: ['analysis', 'design'],
+          activities: ['requirement_gathering', 'modeling'],
+          resources: ['tools', 'documentation']
+        }
+      });
+      expect(performerValidation.valid).toBe(true);
+
+      // Test ResourceFlow
+      const resourceFlowValidation = validateElementAgainstMetaModel({
+        id: 'resource-flow-1',
+        type: 'ResourceFlow',
+        name: 'Data Exchange Flow',
+        description: 'Flow of data between activities',
+        properties: {
+          flowType: 'information',
+          sourceActivity: 'data_collection',
+          targetActivity: 'data_processing',
+          resourceType: 'customer_data',
+          quantity: '1GB/hour',
+          temporalConstraints: ['real-time']
+        }
+      });
+      expect(resourceFlowValidation.valid).toBe(true);
+
+      // Test Rule
+      const ruleValidation = validateElementAgainstMetaModel({
+        id: 'rule-1',
+        type: 'Rule',
+        name: 'Data Privacy Regulation',
+        description: 'GDPR compliance requirements',
+        properties: {
+          ruleType: 'regulation',
+          authority: 'European Union',
+          scope: 'global',
+          enforcementLevel: 'mandatory',
+          complianceRequirements: ['data_encryption', 'user_consent']
+        }
+      });
+      expect(ruleValidation.valid).toBe(true);
+
+      // Test Goal
+      const goalValidation = validateElementAgainstMetaModel({
+        id: 'goal-1',
+        type: 'Goal',
+        name: 'Digital Transformation',
+        description: 'Achieve full digital transformation by 2025',
+        properties: {
+          goalType: 'objective',
+          priority: 'high',
+          timeframe: '2025',
+          measures: ['efficiency_metrics', 'adoption_rate'],
+          relatedResources: ['legacy_systems', 'digital_platforms']
+        }
+      });
+      expect(goalValidation.valid).toBe(true);
+
+      // Test Project
+      const projectValidation = validateElementAgainstMetaModel({
+        id: 'project-1',
+        type: 'Project',
+        name: 'System Modernization Initiative',
+        description: 'Modernize legacy systems to cloud-native architecture',
+        properties: {
+          projectType: 'transformation',
+          startDate: '2024-01-01',
+          endDate: '2025-12-31',
+          budget: '5000000',
+          stakeholders: ['executives', 'it_team', 'users'],
+          deliverables: ['new_system', 'migration_plan'],
+          goals: ['digital_transformation', 'cost_reduction']
+        }
+      });
+      expect(projectValidation.valid).toBe(true);
+
+      // Test Reification
+      const reificationValidation = validateElementAgainstMetaModel({
+        id: 'reification-1',
+        type: 'Reification',
+        name: 'Conceptual to Logical Mapping',
+        description: 'Mapping from conceptual model to logical implementation',
+        properties: {
+          abstractionLevel: 'logical',
+          sourceAbstraction: 'conceptual',
+          targetAbstraction: 'logical',
+          refinementType: 'decomposition',
+          traceabilityLinks: ['req-001', 'req-002']
+        }
+      });
+      expect(reificationValidation.valid).toBe(true);
+    });
+
+    it('should validate DM2 Supporting Architectural Constructs elements', async () => {
+      const { validateElementAgainstMetaModel } = await import('../ontology/dodaf-metamodel');
+
+      // Test Measure
+      const measureValidation = validateElementAgainstMetaModel({
+        id: 'measure-1',
+        type: 'Measure',
+        name: 'System Response Time',
+        description: 'Average response time for system transactions',
+        properties: {
+          measureType: 'performance',
+          unit: 'milliseconds',
+          value: 150,
+          targetValue: 100,
+          threshold: 200,
+          measurementMethod: 'automated_monitoring',
+          collectionFrequency: 'real-time'
+        }
+      });
+      expect(measureValidation.valid).toBe(true);
+
+      // Test Location
+      const locationValidation = validateElementAgainstMetaModel({
+        id: 'location-1',
+        type: 'Location',
+        name: 'Primary Data Center',
+        description: 'Main data center facility',
+        properties: {
+          locationType: 'physical',
+          coordinates: '40.7128,-74.0060',
+          address: '123 Data Center St, New York, NY',
+          logicalReference: 'DC-NYC-01',
+          boundaries: ['north_lat', 'south_lat', 'east_lng', 'west_lng'],
+          containedLocations: ['server_room_1', 'server_room_2']
+        }
+      });
+      expect(locationValidation.valid).toBe(true);
+
+      // Test Pedigree
+      const pedigreeValidation = validateElementAgainstMetaModel({
+        id: 'pedigree-1',
+        type: 'Pedigree',
+        name: 'System Requirements Document',
+        description: 'Origin and history of requirements document',
+        properties: {
+          origin: 'stakeholder_workshop',
+          creationDate: '2023-06-15',
+          author: 'Requirements Team',
+          versionHistory: ['v1.0', 'v1.1', 'v2.0'],
+          modificationHistory: ['2023-07-01', '2023-08-15'],
+          source: 'stakeholder_interviews',
+          reliability: 'high',
+          confidence: '95%'
+        }
+      });
+      expect(pedigreeValidation.valid).toBe(true);
+    });
+
+    it('should validate DM2 relationships', async () => {
+      const { validateRelationshipAgainstMetaModel } = await import('../ontology/dodaf-metamodel');
+
+      // Test PerformerRelationship
+      const performerRelValidation = validateRelationshipAgainstMetaModel({
+        id: 'performer-rel-1',
+        type: 'PerformerRelationship',
+        name: 'Architect Reports To Manager',
+        description: 'Reporting relationship between architect and manager',
+        sourceId: 'architect',
+        targetId: 'manager',
+        properties: {
+          relationshipType: 'reports_to'
+        }
+      });
+      expect(performerRelValidation.valid).toBe(true);
+
+      // Test ResourceFlowRelationship
+      const resourceFlowRelValidation = validateRelationshipAgainstMetaModel({
+        id: 'resource-flow-rel-1',
+        type: 'ResourceFlowRelationship',
+        name: 'Data Flow Connection',
+        description: 'Connection between data flows',
+        sourceId: 'flow-1',
+        targetId: 'flow-2',
+        properties: {
+          relationshipType: 'connects'
+        }
+      });
+      expect(resourceFlowRelValidation.valid).toBe(true);
+
+      // Test RuleRelationship
+      const ruleRelValidation = validateRelationshipAgainstMetaModel({
+        id: 'rule-rel-1',
+        type: 'RuleRelationship',
+        name: 'Regulation Governs Process',
+        description: 'Regulation governs business process',
+        sourceId: 'gdpr-regulation',
+        targetId: 'data-processing',
+        properties: {
+          relationshipType: 'governs'
+        }
+      });
+      expect(ruleRelValidation.valid).toBe(true);
+
+      // Test GoalRelationship
+      const goalRelValidation = validateRelationshipAgainstMetaModel({
+        id: 'goal-rel-1',
+        type: 'GoalRelationship',
+        name: 'Project Supports Goal',
+        description: 'Project supports strategic goal',
+        sourceId: 'modernization-project',
+        targetId: 'digital-transformation-goal',
+        properties: {
+          relationshipType: 'supports'
+        }
+      });
+      expect(goalRelValidation.valid).toBe(true);
+
+      // Test MeasureRelationship
+      const measureRelValidation = validateRelationshipAgainstMetaModel({
+        id: 'measure-rel-1',
+        type: 'MeasureRelationship',
+        name: 'KPI Measures Performance',
+        description: 'KPI measures system performance',
+        sourceId: 'response-time-kpi',
+        targetId: 'web-service',
+        properties: {
+          relationshipType: 'measures'
+        }
+      });
+      expect(measureRelValidation.valid).toBe(true);
+    });
+
+    it('should validate complex DM2 architecture', async () => {
+      let architecture = createDoDAFArchitecture({
+        id: 'dm2-architecture',
+        name: 'DM2 Integrated Architecture',
+        description: 'Architecture demonstrating DM2 data groups integration',
+        author: 'DM2 Architect',
+        organization: 'Enterprise',
+        includeAllViews: true
+      });
+
+      // Add DM2 Principal Architectural Constructs
+      architecture = addElementToProduct(
+        architecture,
+        `${architecture.id}/view/OV/product/OV-1`,
+        {
+          id: 'enterprise-architect',
+          type: 'Performer',
+          name: 'Enterprise Architect',
+          description: 'Lead architect for enterprise transformation',
+          properties: {
+            performerType: 'human',
+            capabilities: ['architecture_design', 'governance'],
+            activities: ['requirement_analysis', 'solution_design']
+          }
+        }
+      );
+
+      architecture = addElementToProduct(
+        architecture,
+        `${architecture.id}/view/OV/product/OV-1`,
+        {
+          id: 'data-privacy-regulation',
+          type: 'Rule',
+          name: 'Data Privacy Regulation',
+          description: 'Compliance with data privacy regulations',
+          properties: {
+            ruleType: 'regulation',
+            authority: 'Government',
+            enforcementLevel: 'mandatory'
+          }
+        }
+      );
+
+      architecture = addElementToProduct(
+        architecture,
+        `${architecture.id}/view/OV/product/OV-1`,
+        {
+          id: 'digital-transformation-goal',
+          type: 'Goal',
+          name: 'Digital Transformation Goal',
+          description: 'Achieve digital transformation by 2025',
+          properties: {
+            goalType: 'strategic',
+            priority: 'high',
+            timeframe: '2025'
+          }
+        }
+      );
+
+      // Add DM2 Supporting Architectural Constructs
+      architecture = addElementToProduct(
+        architecture,
+        `${architecture.id}/view/OV/product/OV-1`,
+        {
+          id: 'performance-measure',
+          type: 'Measure',
+          name: 'System Performance Measure',
+          description: 'Key performance indicator for system response time',
+          properties: {
+            measureType: 'performance',
+            unit: 'milliseconds',
+            targetValue: 100,
+            threshold: 200
+          }
+        }
+      );
+
+      architecture = addElementToProduct(
+        architecture,
+        `${architecture.id}/view/OV/product/OV-1`,
+        {
+          id: 'primary-datacenter',
+          type: 'Location',
+          name: 'Primary Data Center',
+          description: 'Main data center facility location',
+          properties: {
+            locationType: 'physical',
+            coordinates: '40.7128,-74.0060',
+            address: '123 Tech Street, New York, NY'
+          }
+        }
+      );
+
+      // Add relationships
+      architecture = addRelationshipToProduct(
+        architecture,
+        `${architecture.id}/view/OV/product/OV-1`,
+        {
+          id: 'architect-goal-relationship',
+          type: 'PerformerRelationship',
+          name: 'Architect Drives Goal',
+          description: 'Architect responsible for achieving transformation goal',
+          sourceId: 'enterprise-architect',
+          targetId: 'digital-transformation-goal',
+          properties: {
+            relationshipType: 'responsible_for'
+          }
+        }
+      );
+
+      architecture = addRelationshipToProduct(
+        architecture,
+        `${architecture.id}/view/OV/product/OV-1`,
+        {
+          id: 'goal-measure-relationship',
+          type: 'GoalRelationship',
+          name: 'Goal Measured By KPI',
+          description: 'Goal achievement measured by performance KPI',
+          sourceId: 'digital-transformation-goal',
+          targetId: 'performance-measure',
+          properties: {
+            relationshipType: 'measured_by'
+          }
+        }
+      );
+
+      const result = await validateArchitecture(architecture);
+      expect(result.valid).toBe(true);
+      expect(result.errors).toHaveLength(0);
+    });
   });
 
   describe('Standard Views', () => {

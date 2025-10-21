@@ -151,7 +151,17 @@ export type ElementType =
   // Security Elements
   | 'SecurityAttribute'
   | 'SecurityControl'
-  | 'InformationAssuranceRequirement';
+  | 'InformationAssuranceRequirement'
+  // DM2 Data Groups - Principal Architectural Constructs
+  | 'Performer'
+  | 'ResourceFlow'
+  | 'Rule'
+  | 'Goal'
+  | 'Project'
+  | 'Reification'
+  // DM2 Data Groups - Supporting Architectural Constructs
+  | 'Measure'
+  | 'Pedigree';
 
 export interface Element {
   id: string;
@@ -296,7 +306,19 @@ export type RelationshipType =
   | 'Implementation'
   | 'Satisfaction'
   | 'Verification'
-  | 'Validation';
+  | 'Validation'
+  // DM2 Data Groups Relationships - Principal Architectural Constructs
+  | 'PerformerRelationship'
+  | 'ResourceFlowRelationship'
+  | 'RuleRelationship'
+  | 'GoalRelationship'
+  | 'CapabilityRelationship'
+  | 'ProjectRelationship'
+  | 'ReificationRelationship'
+  // DM2 Data Groups Relationships - Supporting Architectural Constructs
+  | 'MeasureRelationship'
+  | 'LocationRelationship'
+  | 'PedigreeRelationship';
 
 export interface Relationship {
   id: string;
