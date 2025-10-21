@@ -1,0 +1,33 @@
+{
+  "name": "@gftdcojp/ai-gftd-ontology-typebox",
+  "version": "1.0.0",
+  "description": "DoDAF 2.0 Ontology validation with TypeBox and JSON-LD",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": ["dodaf", "ontology", "typebox", "jsonld", "typescript"],
+  "author": "GFTD Corp",
+  "license": "MIT",
+  "packageManager": "pnpm@10.17.0",
+  "dependencies": {
+    "@sinclair/typebox": "^0.34.41",
+    "jsonld": "^8.3.3"
+  },
+  "devDependencies": {
+    "@types/jsonld": "^1.5.15",
+    "@types/node": "^24.9.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "files": [
+    "dist"
+  ]
+}
