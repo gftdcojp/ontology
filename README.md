@@ -1,7 +1,7 @@
 # DoDAF 2.0 Ontology TypeBox + JSON-LD
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue.svg)](https://www.typescriptlang.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 A TypeScript library that provides type-safe DoDAF 2.0 (Department of Defense Architecture Framework Version 2.0) ontology definitions using [TypeBox](https://github.com/sinclairzx81/typebox) for runtime validation and [JSON-LD](https://json-ld.org/) for semantic web compatibility.
 
@@ -260,6 +260,60 @@ The library uses a standardized JSON-LD context for DoDAF:
   }
 }
 ```
+
+### Publishing JSON-LD Context for Web Usage
+
+To use this JSON-LD context in web applications or other projects, you need to publish the context file to a publicly accessible URL. Here's how:
+
+#### 1. Generated Context File
+
+After building the project, a JSON-LD context file is automatically generated at `dist/dodaf-context.json`:
+
+```bash
+pnpm build
+# Generates: dist/dodaf-context.json
+```
+
+#### 2. Publishing the Context
+
+You can publish this context file to any web server or CDN. Here are some options:
+
+**Option A: GitHub Pages**
+1. Enable GitHub Pages in your repository settings
+2. The context will be available at: `https://yourusername.github.io/your-repo/dodaf-context.json`
+
+**Option B: CDN or Web Server**
+1. Upload `dist/dodaf-context.json` to your web server
+2. The context will be available at your chosen URL, e.g., `https://your-domain.com/dodaf-context.json`
+
+**Option C: NPM Package**
+1. The context is also included in the NPM package
+2. Users can access it via: `https://unpkg.com/@gftdcojp/ai-gftd-ontology-typebox@latest/dist/dodaf-context.json`
+
+#### 3. Using the Published Context
+
+Once published, other projects can reference your context in their JSON-LD documents:
+
+```json
+{
+  "@context": "https://your-domain.com/dodaf-context.json",
+  "@type": "dodaf:Architecture",
+  "name": "My Architecture",
+  "description": "Architecture description",
+  "views": [...]
+}
+```
+
+#### 4. Context File Structure
+
+The generated context file includes all necessary mappings for DoDAF 2.0 elements:
+
+- **Base URI**: `https://dodaf.defense.gov/ontology#`
+- **Namespace prefix**: `dodaf`
+- **Standard vocabularies**: Schema.org, Dublin Core Terms, FOAF
+- **DoDAF-specific terms**: Views, Products, Elements, Relationships, Metadata
+
+This allows for semantic interoperability between different DoDAF implementations and tools.
 
 ## Development
 

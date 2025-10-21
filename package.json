@@ -6,11 +6,12 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && npm run generate:context",
     "dev": "tsup --watch",
     "test": "vitest",
     "test:run": "vitest run",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "generate:context": "node scripts/generate-context.js"
   },
   "keywords": ["dodaf", "ontology", "typebox", "jsonld", "typescript"],
   "author": "GFTD Corp",

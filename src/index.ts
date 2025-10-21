@@ -31,13 +31,15 @@ export {
   ViewSchema,
   DoDAFArchitectureSchema,
   ElementMetadataSchema,
-  ArchitectureMetadataSchema,
-  DoDAFContext
+  ArchitectureMetadataSchema
 } from './ontology/dodaf-schema';
 
 // Export validator
 import { DoDAFJSONLDValidator } from './validation/jsonld-validator';
 export { DoDAFJSONLDValidator };
+
+// Export JSON-LD context
+export const DoDAFContext = DoDAFJSONLDValidator.DoDAF_CONTEXT;
 
 // Export standard views and products
 export {

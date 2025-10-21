@@ -11,7 +11,7 @@ import { validateElementAgainstMetaModel, validateRelationshipAgainstMetaModel }
 const compiler = TypeCompiler.Compile(DoDAFSchema);
 
 export class DoDAFJSONLDValidator {
-  private static readonly DoDAF_CONTEXT = {
+  static readonly DoDAF_CONTEXT = {
     '@base': 'https://dodaf.defense.gov/ontology#',
     dodaf: 'https://dodaf.defense.gov/ontology#',
     id: '@id',
@@ -34,6 +34,13 @@ export class DoDAFJSONLDValidator {
     organization: 'http://xmlns.com/foaf/0.1/organization',
     classification: 'dodaf:classification'
   };
+
+  /**
+   * Export the DoDAF JSON-LD context as a standalone JSON file
+   */
+  static exportContext(): string {
+    return JSON.stringify(this.DoDAF_CONTEXT, null, 2);
+  }
 
   /**
    * Validate a DoDAF architecture instance

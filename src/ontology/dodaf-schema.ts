@@ -5,10 +5,10 @@ import { Type } from '@sinclair/typebox';
  * JSON-LD compatible schema definitions
  */
 
-// Base JSON-LD context
-export const DoDAFContext = Type.Object({
-  '@context': Type.Record(Type.String(), Type.Any())
-});
+// Base JSON-LD context type (without actual context definition)
+export type DoDAFContextType = {
+  '@context': Record<string, any>;
+};
 
 // View Types
 export const ViewTypeSchema = Type.Union([
