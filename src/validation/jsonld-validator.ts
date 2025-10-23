@@ -5,7 +5,7 @@ import type { DoDAFArchitecture } from '../types/dodaf';
 import { validateElementAgainstMetaModel, validateRelationshipAgainstMetaModel } from '../ontology/dodaf-metamodel';
 
 /**
- * JSON-LD Validator for DoDAF 2.0 Ontology
+ * Enhanced JSON-LD Validator for DoDAF 2.0 Ontology with SHACL support
  */
 
 const compiler = TypeCompiler.Compile(DoDAFSchema);

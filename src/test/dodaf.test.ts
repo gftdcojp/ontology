@@ -145,6 +145,92 @@ describe('DoDAF 2.0 Ontology', () => {
     });
   });
 
+  describe('SHACL Validation', () => {
+    it('should validate architecture with SHACL', async () => {
+      const architecture = createDoDAFArchitecture({
+        id: 'shacl-test',
+        name: 'SHACL Test',
+        description: 'Test for SHACL validation',
+        author: 'Test Author',
+        organization: 'Test Organization'
+      });
+
+      const result = await DoDAFJSONLDValidator.validate(architecture, {
+        includeShaclValidation: true
+      });
+
+      expect(result.valid).toBe(true);
+      expect(result.errors).toHaveLength(0);
+      expect(result.shaclResult).toBeDefined();
+      expect(result.shaclResult!.conforms).toBe(true);
+    });
+
+    it('should fail SHACL validation for invalid architecture', async () => {
+      const invalidArchitecture = {
+        '@id': 'invalid',
+        '@type': 'dodaf:Architecture',
+        name: 'Invalid Architecture'
+        // Missing required fields like description
+      };
+
+      const result = await DoDAFJSONLDValidator.validate(invalidArchitecture, {
+        includeShaclValidation: true
+      });
+
+      expect(result.valid).toBe(false);
+      expect(result.errors.length).toBeGreaterThan(0);
+      expect(result.shaclResult).toBeDefined();
+      expect(result.shaclResult!.conforms).toBe(false);
+    });
+
+    it('should validate complex architecture with elements and relationships', async () => {
+      let architecture = createDoDAFArchitecture({
+        id: 'complex-shacl-test',
+        name: 'Complex SHACL Test',
+        description: 'Test for SHACL validation with complex architecture',
+        author: 'Test Author',
+        organization: 'Test Organization',
+        includeAllViews: true
+      });
+
+      // Add valid elements
+      architecture = addElementToProduct(
+        architecture,
+        `${architecture.id}/view/OV/product/OV-1`,
+        {
+          id: 'activity-1',
+          type: 'OperationalActivity',
+          name: 'Sample Activity',
+          description: 'Sample operational activity',
+          properties: {}
+        }
+      );
+
+      // Add valid relationship
+      architecture = addRelationshipToProduct(
+        architecture,
+        `${architecture.id}/view/OV/product/OV-1`,
+        {
+          id: 'relationship-1',
+          type: 'OperationalActivityFlow',
+          name: 'Activity Flow',
+          description: 'Flow between activities',
+          sourceId: 'activity-1',
+          targetId: 'activity-1',
+          properties: {}
+        }
+      );
+
+      const result = await DoDAFJSONLDValidator.validate(architecture, {
+        includeShaclValidation: true
+      });
+
+      expect(result.valid).toBe(true);
+      expect(result.errors).toHaveLength(0);
+      expect(result.shaclResult!.conforms).toBe(true);
+    });
+  });
+
   describe('Meta Model Validation', () => {
     it('should validate architecture with meta model compliant elements', async () => {
       let architecture = createDoDAFArchitecture({

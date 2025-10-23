@@ -30,6 +30,9 @@ A TypeScript library that provides type-safe DoDAF 2.0 (Department of Defense Ar
 - **Semantic Validation**: Meta model compliance validation for architecture elements
 - **Extensible**: Easy to extend with custom views, products, and elements
 - **RDF Support**: Convert to RDF triples for advanced semantic processing
+- **SHACL Validation**: Advanced semantic constraints validation using SHACL shapes (experimental)
+- **OWL Ontology Generation**: Automatic OWL ontology generation from TypeBox schemas (experimental)
+- **Semantic DSL**: Domain-Specific Language for RDF/OWL/SHACL metadata in TypeBox (experimental)
 
 ## Installation
 
@@ -329,6 +332,84 @@ The generated context file includes all necessary mappings for DoDAF 2.0 element
 - **DoDAF-specific terms**: Views, Products, Elements, Relationships, Metadata
 
 This allows for semantic interoperability between different DoDAF implementations and tools.
+
+## Semantic Web Integration (Experimental)
+
+This library provides experimental support for advanced semantic web technologies including SHACL validation and OWL ontology generation. These features extend TypeBox with RDF/OWL/SHACL metadata to enable automatic generation of semantic constraints and ontologies.
+
+### SHACL Validation
+
+SHACL (Shapes Constraint Language) provides advanced validation capabilities beyond basic TypeScript types:
+
+```typescript
+import { DoDAFSHACLValidator, validateWithSHACL } from '@gftdcojp/ai-gftd-ontology-typebox';
+
+// Validate JSON-LD document against SHACL shapes
+const result = await DoDAFSHACLValidator.validate(jsonLdDocument);
+
+if (!result.conforms) {
+  console.log('Validation errors:', result.results);
+}
+```
+
+### OWL Ontology Generation
+
+Automatically generate OWL ontologies from TypeBox schemas:
+
+```typescript
+import { generateDodafOwlTurtle } from '@gftdcojp/ai-gftd-ontology-typebox';
+
+// Generate OWL ontology in Turtle format
+const owlTurtle = generateDodafOwlTurtle(semanticSchemas);
+console.log(owlTurtle);
+```
+
+### Semantic DSL
+
+Use the Domain-Specific Language to add RDF/OWL/SHACL metadata to TypeBox schemas:
+
+```typescript
+import { Class, DataProperty, ObjectProperty, Constraints } from '@gftdcojp/ai-gftd-ontology-typebox';
+
+const PersonSchema = Class(
+  term.dodaf.Person, // IRI for the class
+  {
+    name: DataProperty(Type.String(), {
+      "@prop": term.dodaf.name,
+      "@kind": "data",
+      "sh:minCount": 1,
+      "sh:datatype": Datatypes.string,
+    }),
+    age: DataProperty(Type.Optional(Type.Number()), {
+      "@prop": term.dodaf.age,
+      "@kind": "data",
+      "sh:maxCount": 1,
+      "sh:datatype": Datatypes.integer,
+    }),
+  },
+  {
+    "rdfs:comment": "A person in the DoDAF ontology"
+  }
+);
+```
+
+### Generated Artifacts
+
+The build process generates several semantic web artifacts:
+
+- `dist/dodaf-context.json` - JSON-LD context for semantic expansion
+- `dist/dodaf.shapes.ttl` - SHACL shapes for validation
+- `dist/dodaf.owl.ttl` - OWL ontology for reasoning
+
+```bash
+# Generate all semantic artifacts
+pnpm run generate:semantic
+
+# Generate individual artifacts
+pnpm run generate:context    # JSON-LD context
+pnpm run generate:shacl      # SHACL shapes
+pnpm run generate:owl        # OWL ontology
+```
 
 ## Development
 

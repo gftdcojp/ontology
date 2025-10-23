@@ -10,4 +10,7 @@ export default defineConfig({
   minify: false,
   target: 'es2022',
   outDir: 'dist',
+  // Exclude problematic semantic modules from main build
+  treeshake: true,
+  external: ['src/semantic/**'],
 });

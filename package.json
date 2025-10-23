@@ -18,8 +18,12 @@
   "license": "Apache-2.0",
   "packageManager": "pnpm@10.17.0",
   "dependencies": {
+    "@rdfjs/data-model": "^2.0.1",
+    "@rdfjs/types": "^1.1.0",
     "@sinclair/typebox": "^0.34.41",
-    "jsonld": "^8.3.3"
+    "jsonld": "^8.3.3",
+    "n3": "^1.17.3",
+    "rdf-validate-shacl": "^0.4.3"
   },
   "devDependencies": {
     "@types/jsonld": "^1.5.15",

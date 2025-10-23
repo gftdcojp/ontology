@@ -41,6 +41,7 @@ export { DoDAFJSONLDValidator };
 // Export JSON-LD context
 export const DoDAFContext = DoDAFJSONLDValidator.DoDAF_CONTEXT;
 
+
 // Export standard views and products
 export {
   DODAF_VIEWS,

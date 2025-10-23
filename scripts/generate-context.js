@@ -7,15 +7,15 @@
 const fs = require('fs');
 const path = require('path');
 
-// Import the context from the built distribution
-// This is a simple approach - in a production setup you might want to import directly from source
+// Generate JSON-LD context
 const context = {
+  "@version": 1.1,
   "@base": "https://dodaf.defense.gov/ontology#",
   "dodaf": "https://dodaf.defense.gov/ontology#",
   "id": "@id",
   "type": "@type",
-  "name": "https://schema.org/name",
-  "description": "https://schema.org/description",
+  "name": "dodaf:name",
+  "description": "dodaf:description",
   "purpose": "dodaf:purpose",
   "created": "http://purl.org/dc/terms/created",
   "modified": "http://purl.org/dc/terms/modified",
@@ -30,7 +30,12 @@ const context = {
   "views": "dodaf:views",
   "architecture": "dodaf:architecture",
   "organization": "http://xmlns.com/foaf/0.1/organization",
-  "classification": "dodaf:classification"
+  "classification": "dodaf:classification",
+  "viewId": "dodaf:viewId",
+  "productId": "dodaf:productId",
+  "sourceId": "dodaf:sourceId",
+  "targetId": "dodaf:targetId",
+  "number": "dodaf:number"
 };
 
 // Write context file to dist folder
@@ -40,5 +45,3 @@ const contextContent = JSON.stringify(context, null, 2);
 fs.writeFileSync(contextPath, contextContent);
 
 console.log(`✅ Generated DoDAF JSON-LD context at: ${contextPath}`);
-console.log(`📄 Context file size: ${contextContent.length} characters`);
-console.log(`🌐 You can serve this file at: /dist/dodaf-context.json`);
