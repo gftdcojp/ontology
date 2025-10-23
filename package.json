@@ -9,7 +9,7 @@
     "build": "tsup && npm run generate:context",
     "dev": "tsup --watch",
     "test": "vitest",
-    "test:run": "vitest run",
+    "test:run": "CI=1 vitest --run --reporter=dot --ui=false --no-watch --passWithNoTests",
     "type-check": "tsc --noEmit",
     "generate:context": "node scripts/generate-context.js"
   },
