@@ -88,3 +88,6 @@ export function createArchitecture(params: {
 }) {
   return DoDAFJSONLDValidator.createArchitecture(params);
 }
+
+// Export OWL ontology generation
+export { generateDodafOwlTurtle, generateOwlTurtle, validateOwlTurtle } from './semantic/generators/owl';

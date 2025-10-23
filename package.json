@@ -5,14 +5,19 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "bin": {
+    "dodaf-cli": "dist/cli/index.js"
+  },
   "scripts": {
-    "build": "tsup && npm run generate:context && npm run generate:shacl",
+    "build": "tsup && npm run generate:context && npm run generate:shacl && npm run generate:owl",
     "dev": "tsup --watch",
     "test": "vitest",
     "test:run": "CI=1 vitest --run --reporter=dot --ui=false --no-watch --passWithNoTests",
     "type-check": "tsc --noEmit",
     "generate:context": "node scripts/generate-context.js",
-    "generate:shacl": "node scripts/generate-shacl.js"
+    "generate:shacl": "node scripts/generate-shacl.js",
+    "generate:owl": "node scripts/generate-owl.js",
+    "generate:semantic": "npm run generate:context && npm run generate:shacl && npm run generate:owl"
   },
   "keywords": [
     "dodaf",
@@ -28,6 +33,7 @@
     "@rdfjs/data-model": "^2.0.1",
     "@rdfjs/types": "^1.1.0",
     "@sinclair/typebox": "^0.34.41",
+    "commander": "^14.0.1",
     "jsonld": "^8.3.3",
     "n3": "^1.17.3",
     "rdf-validate-shacl": "^0.4.3"
@@ -36,6 +42,7 @@
     "@types/jsonld": "^1.5.15",
     "@types/n3": "^1.26.0",
     "@types/node": "^24.9.0",
+    "@types/rdfjs__data-model": "^2.0.9",
     "fast-xml-parser": "^5.3.0",
     "tsup": "^8.5.0",
     "typescript": "^5.9.3",

@@ -5,7 +5,7 @@
  * TypeBox schemas that include RDF and OWL metadata via the DSL.
  */
 
-import { DataFactory } from "@rdfjs/data-model";
+import DataFactory from "@rdfjs/data-model";
 import { Writer } from "n3";
 import type { TObject } from "@sinclair/typebox";
 import { prefix, term, type IRI } from "../vocab";

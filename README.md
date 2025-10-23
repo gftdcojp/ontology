@@ -31,8 +31,8 @@ A TypeScript library that provides type-safe DoDAF 2.0 (Department of Defense Ar
 - **Extensible**: Easy to extend with custom views, products, and elements
 - **RDF Support**: Convert to RDF triples for advanced semantic processing
 - **SHACL Validation**: Advanced semantic constraints validation using SHACL shapes
-- **OWL Ontology Generation**: Automatic OWL ontology generation from TypeBox schemas (experimental)
-- **Semantic DSL**: Domain-Specific Language for RDF/OWL/SHACL metadata in TypeBox (experimental)
+- **OWL Ontology Generation**: Automatic OWL ontology generation from TypeBox schemas
+- **Semantic DSL**: Domain-Specific Language for RDF/OWL/SHACL metadata in TypeBox
 
 ## Installation
 
@@ -357,11 +357,18 @@ if (!result.conforms) {
 Automatically generate OWL ontologies from TypeBox schemas:
 
 ```typescript
-import { generateDodafOwlTurtle } from '@gftdcojp/ai-gftd-ontology-typebox';
+import { generateDodafOwlTurtle, generateOwlTurtle } from '@gftdcojp/ai-gftd-ontology-typebox';
 
-// Generate OWL ontology in Turtle format
+// Generate DoDAF-specific OWL ontology
 const owlTurtle = generateDodafOwlTurtle(semanticSchemas);
 console.log(owlTurtle);
+
+// Generate custom OWL ontology with options
+const customOwl = generateOwlTurtle(semanticSchemas, {
+  ontologyIri: "https://example.com/ontology",
+  versionIri: "https://example.com/ontology/1.0",
+  includeAnnotations: true
+});
 ```
 
 ### Semantic DSL
@@ -409,6 +416,74 @@ pnpm run generate:semantic
 pnpm run generate:context    # JSON-LD context
 pnpm run generate:shacl      # SHACL shapes
 pnpm run generate:owl        # OWL ontology
+```
+
+## CLI Tool
+
+The package includes a command-line interface for DoDAF architecture validation, generation, and analysis:
+
+```bash
+# Install globally
+pnpm add -g @gftdcojp/ai-gftd-ontology-typebox
+
+# Or run directly
+npx @gftdcojp/ai-gftd-ontology-typebox --help
+```
+
+### Validate Architecture
+
+```bash
+# Basic validation
+dodaf-cli validate architecture.json
+
+# With SHACL validation
+dodaf-cli validate architecture.json --shacl
+
+# Save results to file
+dodaf-cli validate architecture.json --output results.json
+```
+
+### Create Architecture
+
+```bash
+# Create basic architecture
+dodaf-cli create \
+  --name "My System Architecture" \
+  --description "Enterprise system architecture" \
+  --author "John Doe" \
+  --organization "My Organization"
+
+# Create with all standard views
+dodaf-cli create \
+  --name "Complete Architecture" \
+  --description "Full DoDAF architecture" \
+  --author "Jane Smith" \
+  --organization "Defense Department" \
+  --full \
+  --output complete-architecture.json
+```
+
+### Generate Artifacts
+
+```bash
+# Generate JSON-LD context
+dodaf-cli generate context
+
+# Generate SHACL shapes
+dodaf-cli generate shacl
+
+# Generate OWL ontology
+dodaf-cli generate owl
+
+# Generate all artifacts
+dodaf-cli generate all
+```
+
+### Analyze Architecture
+
+```bash
+# Analyze architecture structure
+dodaf-cli analyze architecture.json
 ```
 
 ## Development

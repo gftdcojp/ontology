@@ -21,7 +21,7 @@ type RdfMeta = {
 };
 
 // Property-level RDF/OWL/SHACL metadata
-type PropMeta = {
+export type PropMeta = {
   /** Property IRI (maps to OWL property or SHACL path) */
   "@prop": IRI<string>;
   /** Property type classification */
@@ -65,7 +65,7 @@ export function Class<P extends TProperties>(
 ): TObject<P> & SemanticSchema<TObject<P>> {
   const schema = Type.Object(properties, {
     $id: iri,
-    title: iri.localName?.(iri) || String(iri),
+    title: getLocalNameFromIri(iri),
   });
 
   // Attach RDF metadata to the schema
@@ -226,3 +226,13 @@ export const Datatypes = {
   dateTime: "http://www.w3.org/2001/XMLSchema#dateTime" as IRI<string>,
   uri: "http://www.w3.org/2001/XMLSchema#anyURI" as IRI<string>,
 } as const;
+
+/**
+ * Extract local name from IRI
+ */
+function getLocalNameFromIri(iri: IRI<string>): string {
+  const hashIndex = String(iri).lastIndexOf('#');
+  const slashIndex = String(iri).lastIndexOf('/');
+  const index = Math.max(hashIndex, slashIndex);
+  return index >= 0 ? String(iri).substring(index + 1) : String(iri);
+}
