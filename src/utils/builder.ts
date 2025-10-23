@@ -62,9 +62,9 @@ export function addViewToArchitecture(
     customProducts.map((product, index) => ({
       id: `${architecture.id}/view/${viewType}/product/${product.number}`,
       viewId: `${architecture.id}/view/${viewType}`,
-      elements: [],
-      relationships: [],
-      ...product
+      ...product,
+      elements: product.elements || [],
+      relationships: product.relationships || []
     })) :
     getProductsForView(viewType).map((productDef, index) => ({
       id: `${architecture.id}/view/${viewType}/product/${productDef.number}`,
@@ -109,9 +109,9 @@ export function addProductToView(
             products: [...view.products, {
               id: `${viewId}/product/${product.number}`,
               viewId,
-              elements: [],
-              relationships: [],
-              ...product
+              ...product,
+              elements: product.elements || [],
+              relationships: product.relationships || []
             }]
           }
         : view
