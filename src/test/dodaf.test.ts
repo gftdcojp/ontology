@@ -163,11 +163,12 @@ describe('DoDAF 2.0 Ontology', () => {
         includeShaclValidation: true
       });
 
+
       expect(result.valid).toBe(true);
       expect(result.errors).toHaveLength(0);
-      // SHACL validation option is accepted but currently returns undefined
-      // This is expected until full SHACL implementation is completed
-      expect(result.shaclResult).toBeUndefined();
+      expect(result.shaclResult).toBeDefined();
+      expect(typeof result.shaclResult!.conforms).toBe('boolean');
+      expect(result.shaclResult!.conforms).toBe(true);
     });
 
     it('should fail SHACL validation for invalid architecture', async () => {
@@ -184,8 +185,8 @@ describe('DoDAF 2.0 Ontology', () => {
 
       expect(result.valid).toBe(false);
       expect(result.errors.length).toBeGreaterThan(0);
-      // SHACL validation option is accepted but currently returns undefined
-      // This is expected until full SHACL implementation is completed
+      // SHACL validation is not executed when basic JSON-LD validation fails
+      // This is expected behavior to avoid running SHACL on malformed data
       expect(result.shaclResult).toBeUndefined();
     });
 
@@ -237,9 +238,9 @@ describe('DoDAF 2.0 Ontology', () => {
 
       expect(result.valid).toBe(true);
       expect(result.errors).toHaveLength(0);
-      // SHACL validation option is accepted but currently returns undefined
-      // This is expected until full SHACL implementation is completed
-      expect(result.shaclResult).toBeUndefined();
+      expect(result.shaclResult).toBeDefined();
+      expect(typeof result.shaclResult!.conforms).toBe('boolean');
+      expect(result.shaclResult!.conforms).toBe(true);
     });
   });
 

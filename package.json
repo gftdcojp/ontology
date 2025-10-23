@@ -6,12 +6,13 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup && npm run generate:context",
+    "build": "tsup && npm run generate:context && npm run generate:shacl",
     "dev": "tsup --watch",
     "test": "vitest",
     "test:run": "CI=1 vitest --run --reporter=dot --ui=false --no-watch --passWithNoTests",
     "type-check": "tsc --noEmit",
-    "generate:context": "node scripts/generate-context.js"
+    "generate:context": "node scripts/generate-context.js",
+    "generate:shacl": "node scripts/generate-shacl.js"
   },
   "keywords": [
     "dodaf",

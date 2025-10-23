@@ -3,6 +3,12 @@ import { TypeCompiler } from '@sinclair/typebox/compiler';
 import { DoDAFSchema } from '../ontology/dodaf-schema';
 import type { DoDAFArchitecture } from '../types/dodaf';
 import { validateElementAgainstMetaModel, validateRelationshipAgainstMetaModel } from '../ontology/dodaf-metamodel';
+import { Parser, Store, DataFactory } from 'n3';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
+// Import SHACL validator with type assertion
+const SHACLValidator = require('rdf-validate-shacl');
 
 /**
  * Enhanced JSON-LD Validator for DoDAF 2.0 Ontology with SHACL support
@@ -45,10 +51,17 @@ export class DoDAFJSONLDValidator {
   /**
    * Validate a DoDAF architecture instance
    */
-  static async validate(document: any): Promise<{
+  static async validate(document: any, options: {
+    includeShaclValidation?: boolean;
+  } = {}): Promise<{
     valid: boolean;
     errors: string[];
     normalized?: any;
+    shaclResult?: {
+      conforms: boolean;
+      results: any[];
+      dataset: any;
+    };
   }> {
     const errors: string[] = [];
 
@@ -79,10 +92,21 @@ export class DoDAFJSONLDValidator {
         return { valid: false, errors };
       }
 
+      let shaclResult;
+      if (options.includeShaclValidation) {
+        try {
+          shaclResult = await this.validateWithSHACL(compacted);
+        } catch (error) {
+          errors.push(`SHACL validation error: ${error instanceof Error ? error.message : String(error)}`);
+          return { valid: false, errors };
+        }
+      }
+
       return {
         valid: true,
         errors: [],
-        normalized: compacted
+        normalized: compacted,
+        shaclResult
       };
 
     } catch (error) {
@@ -117,6 +141,58 @@ export class DoDAFJSONLDValidator {
       return normalized;
     } catch (error) {
       throw new Error(`Normalization failed: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  /**
+   * Validate document against SHACL shapes
+   */
+  private static async validateWithSHACL(document: any): Promise<{
+    conforms: boolean;
+    results: any[];
+    dataset: any;
+  }> {
+    try {
+      // Convert JSON-LD to RDF
+      const rdfQuads = await this.toRDF(document);
+
+      // Convert to N3 Store for SHACL validation
+      const store = new Store();
+      for (const quad of rdfQuads) {
+        store.addQuad(
+          DataFactory.quad(
+            DataFactory.namedNode(quad.subject.value),
+            DataFactory.namedNode(quad.predicate.value),
+            quad.object.termType === 'Literal'
+              ? DataFactory.literal(quad.object.value, quad.object.language || quad.object.datatype?.value)
+              : DataFactory.namedNode(quad.object.value),
+            quad.graph ? DataFactory.namedNode(quad.graph.value) : DataFactory.defaultGraph()
+          )
+        );
+      }
+
+      // Load SHACL shapes from generated file
+      const shapesPath = join(__dirname, '..', '..', 'dist', 'dodaf.shapes.ttl');
+      const shapesTurtle = readFileSync(shapesPath, 'utf-8');
+
+      // Parse shapes
+      const parser = new Parser();
+      const shapesQuads = parser.parse(shapesTurtle);
+
+      // Create validator
+      const validator = new SHACLValidator(shapesQuads);
+
+      // Validate data
+      const report = validator.validate(store);
+
+      return {
+        conforms: report.conforms,
+        results: report.results || [],
+        dataset: report.dataset
+      };
+
+    } catch (error) {
+      throw new Error(`SHACL validation failed: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
 

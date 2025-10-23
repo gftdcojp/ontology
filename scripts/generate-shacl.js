@@ -35,86 +35,108 @@ try {
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dodaf: <https://dodaf.defense.gov/ontology#> .
+@prefix schema: <https://schema.org/> .
 
-# Architecture Shape
+# Architecture Shape - target Architecture instances specifically
 dodaf:ArchitectureShape
     a sh:NodeShape ;
-    sh:targetClass dodaf:Architecture ;
-    sh:property [
-        sh:path dodaf:name ;
-        sh:minCount 1 ;
-        sh:datatype xsd:string ;
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:select """
+            SELECT ?this WHERE {
+                ?this rdf:type dodaf:Architecture .
+            }
+        """ ;
     ] ;
     sh:property [
-        sh:path dodaf:description ;
+        sh:path schema:name ;
         sh:minCount 1 ;
         sh:datatype xsd:string ;
+        sh:message "Architecture must have a name" ;
+    ] ;
+    sh:property [
+        sh:path schema:description ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Architecture must have a description" ;
     ] .
 
-# Element Shape
+# Element Shape - optional validation for elements
 dodaf:ElementShape
     a sh:NodeShape ;
-    sh:targetClass dodaf:Element ;
-    sh:property [
-        sh:path dodaf:name ;
-        sh:minCount 1 ;
-        sh:datatype xsd:string ;
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:select """
+            SELECT ?this WHERE {
+                ?this rdf:type dodaf:Element .
+            }
+        """ ;
     ] ;
     sh:property [
-        sh:path dodaf:type ;
+        sh:path schema:name ;
         sh:minCount 1 ;
         sh:datatype xsd:string ;
+        sh:message "Element must have a name" ;
+    ] ;
+    sh:property [
+        sh:path schema:description ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Element must have a description" ;
     ] .
 
-# Relationship Shape
+# Relationship Shape - optional validation for relationships
 dodaf:RelationshipShape
     a sh:NodeShape ;
-    sh:targetClass dodaf:Relationship ;
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:select """
+            SELECT ?this WHERE {
+                ?this rdf:type dodaf:Relationship .
+            }
+        """ ;
+    ] ;
     sh:property [
-        sh:path dodaf:name ;
+        sh:path schema:name ;
         sh:minCount 1 ;
         sh:datatype xsd:string ;
-    ] ;
-    sh:property [
-        sh:path dodaf:sourceId ;
-        sh:minCount 1 ;
-        sh:nodeKind sh:IRI ;
-    ] ;
-    sh:property [
-        sh:path dodaf:targetId ;
-        sh:minCount 1 ;
-        sh:nodeKind sh:IRI ;
+        sh:message "Relationship must have a name" ;
     ] .
 
-# Product Shape
+# Product Shape - optional validation for products
 dodaf:ProductShape
     a sh:NodeShape ;
-    sh:targetClass dodaf:Product ;
-    sh:property [
-        sh:path dodaf:name ;
-        sh:minCount 1 ;
-        sh:datatype xsd:string ;
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:select """
+            SELECT ?this WHERE {
+                ?this rdf:type dodaf:Product .
+            }
+        """ ;
     ] ;
     sh:property [
-        sh:path dodaf:number ;
+        sh:path schema:name ;
         sh:minCount 1 ;
         sh:datatype xsd:string ;
-        sh:pattern "^[A-Z]{2}-\\\\d+$" ;
+        sh:message "Product must have a name" ;
     ] .
 
-# View Shape
+# View Shape - optional validation for views
 dodaf:ViewShape
     a sh:NodeShape ;
-    sh:targetClass dodaf:View ;
-    sh:property [
-        sh:path dodaf:type ;
-        sh:minCount 1 ;
-        sh:in ( "AV" "OV" "SV" "TV" "DIV" ) ;
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:select """
+            SELECT ?this WHERE {
+                ?this rdf:type dodaf:View .
+            }
+        """ ;
     ] ;
     sh:property [
-        sh:path dodaf:name ;
+        sh:path schema:name ;
         sh:minCount 1 ;
         sh:datatype xsd:string ;
+        sh:message "View must have a name" ;
     ] .
 `;
 

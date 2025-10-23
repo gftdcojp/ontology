@@ -30,7 +30,7 @@ A TypeScript library that provides type-safe DoDAF 2.0 (Department of Defense Ar
 - **Semantic Validation**: Meta model compliance validation for architecture elements
 - **Extensible**: Easy to extend with custom views, products, and elements
 - **RDF Support**: Convert to RDF triples for advanced semantic processing
-- **SHACL Validation**: Advanced semantic constraints validation using SHACL shapes (experimental)
+- **SHACL Validation**: Advanced semantic constraints validation using SHACL shapes
 - **OWL Ontology Generation**: Automatic OWL ontology generation from TypeBox schemas (experimental)
 - **Semantic DSL**: Domain-Specific Language for RDF/OWL/SHACL metadata in TypeBox (experimental)
 
