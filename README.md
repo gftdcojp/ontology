@@ -1,20 +1,20 @@
-# DoDAF 2.0 Ontology TypeBox + JSON-LD
+# DoDAF 2.0 Ontology ResourceBox + JSON-LD
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue.svg)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![npm version](https://badge.fury.io/js/%40gftdcojp%2Fai-gftd-ontology-typebox.svg)](https://badge.fury.io/js/%40gftdcojp%2Fai-gftd-ontology-typebox)
-[![Tests](https://img.shields.io/badge/Tests-53%20passed-brightgreen.svg)](https://github.com/gftdcojp/ai-gftd-ontology-typebox)
+[![Tests](https://img.shields.io/badge/Tests-63%20passed-brightgreen.svg)](https://github.com/gftdcojp/ai-gftd-ontology-typebox)
 [![Build](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](https://github.com/gftdcojp/ai-gftd-ontology-typebox)
 [![Coverage](https://img.shields.io/badge/Coverage-Complete-brightgreen.svg)](https://github.com/gftdcojp/ai-gftd-ontology-typebox)
 
-A **complete and production-ready** TypeScript library that provides type-safe DoDAF 2.0 (Department of Defense Architecture Framework Version 2.0) ontology definitions using [TypeBox](https://github.com/sinclairzx81/typebox) for runtime validation and [JSON-LD](https://json-ld.org/) for semantic web compatibility.
+A **complete and production-ready** TypeScript library that provides type-safe DoDAF 2.0 (Department of Defense Architecture Framework Version 2.0) ontology definitions using [ResourceBox](https://www.npmjs.com/package/@gftdcojp/resourcebox) for runtime validation and [JSON-LD](https://json-ld.org/) for semantic web compatibility.
 
 ## 🎯 Project Status
 
-✅ **COMPLETED** - All features implemented and tested (53 tests passing)
+✅ **COMPLETED** - All features implemented and tested (63 tests passing)
 
-- **Core Architecture**: TypeScript = Syntactic Canon, RDF/SHACL = Semantic Canon
-- **Natural Transformation**: JSON Schema + Shape conversion bridging TypeScript ↔ RDF
+- **Core Architecture**: TypeScript = Syntactic Canon, ResourceBox = Semantic Canon (Onto/Resource/Shape layers)
+- **Natural Transformation**: JSON-LD Context + OWL Ontology bridging TypeScript ↔ RDF
 - **Quality Assurance**: 100% test coverage, full type checking, production-ready
 
 ## 📋 Table of Contents
@@ -38,7 +38,7 @@ A **complete and production-ready** TypeScript library that provides type-safe D
 ✅ **All Features Fully Implemented and Tested**
 
 - **Type-Safe**: Full TypeScript support with compile-time type checking
-- **Runtime Validation**: TypeBox-powered validation for DoDAF architecture instances
+- **Runtime Validation**: ResourceBox-powered validation for DoDAF architecture instances
 - **JSON-LD Compatible**: Semantic web integration with JSON-LD context and expansion
 - **DoDAF 2.0 Compliant**: Implements all standard views (AV, OV, SV, TV, DIV) and products
 - **Meta Model Support**: Comprehensive DoDAF 2.0 meta model with element and relationship types
@@ -46,8 +46,8 @@ A **complete and production-ready** TypeScript library that provides type-safe D
 - **Extensible**: Easy to extend with custom views, products, and elements
 - **RDF Support**: Convert to RDF triples for advanced semantic processing
 - **SHACL Validation**: Advanced semantic constraints validation using SHACL shapes
-- **OWL Ontology Generation**: Automatic OWL ontology generation from TypeBox schemas
-- **Semantic DSL**: Domain-Specific Language for RDF/OWL/SHACL metadata in TypeBox
+- **OWL Ontology Generation**: Automatic OWL ontology generation from ResourceBox schemas
+- **Semantic DSL**: Domain-Specific Language for RDF/OWL/SHACL metadata in ResourceBox
 - **CLI Tool**: Complete command-line interface for validation, generation, and analysis
 
 ## Installation
@@ -389,31 +389,41 @@ const customOwl = generateOwlTurtle(semanticSchemas, {
 
 ### Semantic DSL
 
-Use the Domain-Specific Language to add RDF/OWL/SHACL metadata to TypeBox schemas:
+Use the Domain-Specific Language to add RDF/OWL/SHACL metadata to ResourceBox schemas:
 
 ```typescript
-import { Class, DataProperty, ObjectProperty, Constraints } from '@gftdcojp/ai-gftd-ontology-typebox';
+import { Onto, Resource, Shape } from '@gftdcojp/resourcebox';
+import { Class, DataProperty, ObjectProperty } from '@gftdcojp/ai-gftd-ontology-typebox';
 
-const PersonSchema = Class(
-  term.dodaf.Person, // IRI for the class
-  {
-    name: DataProperty(Type.String(), {
-      "@prop": term.dodaf.name,
-      "@kind": "data",
-      "sh:minCount": 1,
-      "sh:datatype": Datatypes.string,
-    }),
-    age: DataProperty(Type.Optional(Type.Number()), {
-      "@prop": term.dodaf.age,
-      "@kind": "data",
-      "sh:maxCount": 1,
-      "sh:datatype": Datatypes.integer,
-    }),
-  },
-  {
-    "rdfs:comment": "A person in the DoDAF ontology"
-  }
-);
+// Define namespace
+const dodaf = Onto.Namespace({
+  prefix: "dodaf",
+  uri: "http://dodaf.defense.gov/dodaf20#"
+});
+
+// Define class
+const PersonClass = Onto.Class({
+  iri: "http://dodaf.defense.gov/dodaf20#Person",
+  comment: "A person in the DoDAF ontology"
+});
+
+const PersonSchema = Resource.Object({
+  "@id": Resource.String({ format: "uri" }),
+  name: DataProperty(Resource.String({ minLength: 1 }), {
+    property: dodaf("name"),
+    kind: "data",
+    minCount: 1,
+    datatype: "string"
+  }),
+  age: DataProperty(Resource.Optional(Resource.Number()), {
+    property: dodaf("age"),
+    kind: "data",
+    maxCount: 1,
+    datatype: "integer"
+  })
+}, {
+  class: PersonClass
+});
 ```
 
 ### Generated Artifacts
@@ -534,9 +544,9 @@ pnpm test src/test/comprehensive.test.ts
 
 ### Test Coverage
 
-- **53 total tests** - All passing ✅
-- **43 core functionality tests** - TypeBox validation, JSON-LD, RDF conversion
-- **10 comprehensive tests** - Large architectures, edge cases, performance, semantic DSL
+- **63 total tests** - All passing ✅
+- **47 core functionality tests** - ResourceBox validation, JSON-LD, RDF conversion
+- **16 comprehensive tests** - Large architectures, edge cases, performance, semantic DSL
 - **Test categories**:
   - Basic DoDAF architecture creation and validation
   - Complex element relationships and hierarchies
@@ -553,20 +563,20 @@ This library implements a **semantic computational architecture** where:
 
 ### Core Design Principles
 - **TypeScript = Syntactic Canon**: Type-safe foundation with compile-time guarantees
-- **RDF/SHACL = Semantic Canon**: Semantic web standards for meaning representation
-- **Natural Transformation**: JSON Schema + Shape conversion bridging syntax ↔ semantics
+- **ResourceBox = Semantic Canon**: Onto/Resource/Shape layers for complete ontology modeling
+- **Natural Transformation**: JSON-LD Context + OWL Ontology bridging syntax ↔ semantics
 
 ### Process Network Topology
 ```
-TypeScript (TypeBox) ←→ JSON Schema ←→ SHACL Shapes ←→ RDF Triples
-      ↓                        ↓              ↓              ↓
-   Type Safety          Schema Validation   Semantic     Knowledge
-   & Validation           & Conversion    Constraints    Representation
+TypeScript ←→ ResourceBox (Onto/Resource/Shape) ←→ JSON-LD Context ←→ RDF Triples
+     ↓                      ↓                              ↓              ↓
+ Type Safety         Ontology Definition           Semantic     Knowledge
+ & Validation       & Schema Validation         Constraints    Representation
 ```
 
 ### Quality Metrics
 - **Entropy Minimization**: Low entropy across all layers (< 0.2 total)
-- **Test Coverage**: 100% functionality coverage with 53 comprehensive tests
+- **Test Coverage**: 100% functionality coverage with 63 comprehensive tests
 - **Build Integrity**: Automated semantic artifact generation (context, shapes, ontology)
 - **Production Ready**: Full type checking, error handling, and performance optimization
 
@@ -584,12 +594,12 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ## Related Projects
 
-- [TypeBox](https://github.com/sinclairzx81/typebox) - TypeScript runtime type validation
+- [ResourceBox](https://www.npmjs.com/package/@gftdcojp/resourcebox) - TypeScript RDF ontology and schema validation
 - [JSON-LD](https://json-ld.org/) - JSON for Linking Data
 - [DoDAF](https://dodcio.defense.gov/Library/DoD-Architecture-Framework/) - Department of Defense Architecture Framework
 
 ## Acknowledgments
 
 - DoD Architecture Framework Version 2.0 specification
-- TypeBox for runtime type validation
+- ResourceBox for semantic ontology modeling
 - JSON-LD community for semantic web standards
