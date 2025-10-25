@@ -7,7 +7,6 @@
 
 import DataFactory from "@rdfjs/data-model";
 import { Writer } from "n3";
-import type { TObject } from "@sinclair/typebox";
 import { prefix, term, type IRI } from "../vocab";
 import { extractRdf, type SemanticSchema, type PropMeta } from "../dsl";
 

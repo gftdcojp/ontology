@@ -15,6 +15,8 @@ export default defineConfig({
     reporters: ['dot'],
     // CI mode - non-interactive
     ci: true,
+    // Exclude material directory and node_modules from tests
+    exclude: ['**/material/**', '**/node_modules/**'],
     // Coverage configuration
     coverage: {
       reporter: ['text', 'json', 'html'],

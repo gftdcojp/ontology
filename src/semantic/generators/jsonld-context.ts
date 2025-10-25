@@ -5,7 +5,6 @@
  * that include RDF metadata via the DSL.
  */
 
-import type { TObject, TProperties } from "@sinclair/typebox";
 import { prefix, term, type IRI } from "../vocab";
 import { extractRdf, type SemanticSchema } from "../dsl";
 

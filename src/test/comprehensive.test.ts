@@ -24,7 +24,6 @@ import {
   DataProperty,
   ObjectProperty
 } from '../semantic/dsl.js';
-import { Type } from '@sinclair/typebox';
 import { term } from '../semantic/vocab.js';
 
 describe('Comprehensive DoDAF Tests', () => {

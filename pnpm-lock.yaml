@@ -23,9 +23,6 @@ importers:
       '@rdfjs/types':
         specifier: ^1.1.0
         version: 1.1.2
-      '@sinclair/typebox':
-        specifier: ^0.34.41
-        version: 0.34.41
       commander:
         specifier: ^14.0.1
         version: 14.0.1
@@ -444,9 +441,6 @@ packages:
 
   '@sinclair/typebox@0.32.35':
     resolution: {integrity: sha512-Ul3YyOTU++to8cgNkttakC0dWvpERr6RYoHO2W47DLbFvrwBDJUY31B1sImH6JZSYc4Kt4PyHtoPNu+vL2r2dA==}
-
-  '@sinclair/typebox@0.34.41':
-    resolution: {integrity: sha512-6gS8pZzSXdyRHTIqoqSVknxolr1kzfy4/CeDnrzsVz8TTIWUbOBr6gnzOmTYJ3eXQNh4IYHIGi5aIL7sOZ2G/g==}
 
   '@standard-schema/spec@1.0.0':
     resolution: {integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==}
@@ -1479,8 +1473,6 @@ snapshots:
     optional: true
 
   '@sinclair/typebox@0.32.35': {}
-
-  '@sinclair/typebox@0.34.41': {}
 
   '@standard-schema/spec@1.0.0': {}
 

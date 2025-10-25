@@ -6,7 +6,6 @@
  */
 
 import { Onto, Resource, Shape, Static } from '@gftdcojp/resourcebox';
-import { Type } from '@sinclair/typebox';
 
 // Define DoDAF namespace using ResourceBox
 export const dodaf = Onto.Namespace({
