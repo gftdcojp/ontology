@@ -234,6 +234,14 @@ dodaf:properties
     rdfs:label "properties" ;
     rdfs:domain dodaf:Element ;
     rdfs:range xsd:string .
+
+# Subclass mappings (lightweight UML→OWL generalization)
+dodaf:Capability rdfs:subClassOf dodaf:Element .
+dodaf:Activity rdfs:subClassOf dodaf:Element .
+dodaf:Service rdfs:subClassOf dodaf:Element .
+dodaf:Standard rdfs:subClassOf dodaf:Element .
+dodaf:Agreement rdfs:subClassOf dodaf:Element .
+dodaf:Information rdfs:subClassOf dodaf:Element .
 `;
 
   // Write OWL ontology file
