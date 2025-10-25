@@ -340,4 +340,20 @@ describe('Comprehensive DoDAF Tests', () => {
       expect(ttl.includes(term)).toBe(true);
     });
   });
+
+  it('should validate UML sample JSON-LD with SHACL (capability→service)', async () => {
+    const sample = readFileSync(join(process.cwd(), 'src', 'test', 'fixtures', 'uml-sample.jsonld'), 'utf-8');
+    const doc = JSON.parse(sample);
+    const result = await DoDAFJSONLDValidator.validate(doc, { includeShaclValidation: true });
+    expect(result.valid).toBe(true);
+    expect(result.shaclResult?.conforms).toBe(true);
+  });
+
+  it('should validate UML sample 2 JSON-LD with SHACL (activity/service relations)', async () => {
+    const sample = readFileSync(join(process.cwd(), 'src', 'test', 'fixtures', 'uml-sample-2.jsonld'), 'utf-8');
+    const doc = JSON.parse(sample);
+    const result = await DoDAFJSONLDValidator.validate(doc, { includeShaclValidation: true });
+    expect(result.valid).toBe(true);
+    expect(result.shaclResult?.conforms).toBe(true);
+  });
 });

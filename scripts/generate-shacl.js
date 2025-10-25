@@ -137,21 +137,26 @@ dodaf:CapabilityShape
     sh:target [ a sh:SPARQLTarget ; sh:select """
         SELECT ?this WHERE { ?this rdf:type dodaf:Capability . }
     """ ; ] ;
-    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:datatype xsd:string ] .
+    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path dodaf:supportsService ; sh:minCount 1 ; sh:nodeKind sh:IRI ; sh:message "Capability must support at least one Service" ] .
 
 dodaf:ActivityShape
     a sh:NodeShape ;
     sh:target [ a sh:SPARQLTarget ; sh:select """
         SELECT ?this WHERE { ?this rdf:type dodaf:Activity . }
     """ ; ] ;
-    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:datatype xsd:string ] .
+    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path dodaf:producesInformation ; sh:minCount 0 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path dodaf:consumesInformation ; sh:minCount 0 ; sh:nodeKind sh:IRI ] .
 
 dodaf:ServiceShape
     a sh:NodeShape ;
     sh:target [ a sh:SPARQLTarget ; sh:select """
         SELECT ?this WHERE { ?this rdf:type dodaf:Service . }
     """ ; ] ;
-    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:datatype xsd:string ] .
+    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path schema:description ; sh:minCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path dodaf:conformsToStandard ; sh:minCount 0 ; sh:nodeKind sh:IRI ] .
 
 dodaf:StandardShape
     a sh:NodeShape ;

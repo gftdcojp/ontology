@@ -235,6 +235,35 @@ dodaf:properties
     rdfs:domain dodaf:Element ;
     rdfs:range xsd:string .
 
+# Representative association properties
+dodaf:supportsService
+    a owl:ObjectProperty ;
+    rdfs:label "supportsService" ;
+    rdfs:comment "Capability supports/provides a Service" ;
+    rdfs:domain dodaf:Capability ;
+    rdfs:range dodaf:Service .
+
+dodaf:producesInformation
+    a owl:ObjectProperty ;
+    rdfs:label "producesInformation" ;
+    rdfs:comment "Activity produces Information" ;
+    rdfs:domain dodaf:Activity ;
+    rdfs:range dodaf:Information .
+
+dodaf:consumesInformation
+    a owl:ObjectProperty ;
+    rdfs:label "consumesInformation" ;
+    rdfs:comment "Activity consumes Information" ;
+    rdfs:domain dodaf:Activity ;
+    rdfs:range dodaf:Information .
+
+dodaf:conformsToStandard
+    a owl:ObjectProperty ;
+    rdfs:label "conformsToStandard" ;
+    rdfs:comment "Service conforms to Standard" ;
+    rdfs:domain dodaf:Service ;
+    rdfs:range dodaf:Standard .
+
 # Subclass mappings (lightweight UML→OWL generalization)
 dodaf:Capability rdfs:subClassOf dodaf:Element .
 dodaf:Activity rdfs:subClassOf dodaf:Element .
