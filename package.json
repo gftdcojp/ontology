@@ -31,6 +31,7 @@
   "license": "Apache-2.0",
   "packageManager": "pnpm@10.17.0",
   "dependencies": {
+    "@gftdcojp/resourcebox": "^0.2.0",
     "@orpc/client": "^1.10.0",
     "@orpc/server": "^1.10.0",
     "@rdfjs/data-model": "^2.0.1",

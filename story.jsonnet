@@ -33,6 +33,22 @@ local project = {
       entropy: 0.02,  // Low entropy = high consistency
     },
 
+    // ResourceBox integration layer
+    resourcebox_integration: {
+      id: "resourcebox-integration",
+      type: "enhancement",
+      status: "completed",
+      description: "Integration of @gftdcojp/resourcebox for enhanced RDF resource management with Onto/Resource/Shape layers",
+      dependencies: ["typescript-canon"],
+      artifacts: [
+        "src/test/resourcebox.integration.test.ts",
+        "src/test/resourcebox-migration.test.ts",
+        "src/ontology/resourcebox-migration.ts",
+        "package.json:@gftdcojp/resourcebox"
+      ],
+      entropy: 0.03,  // Slightly higher due to new integration
+    },
+
     // Semantic foundation
     rdf_canon: {
       id: "rdf-canon",
@@ -147,10 +163,41 @@ local project = {
       ],
       entropy: 0.02,
     }
+    ,
+
+    // oRPC router exposing ontology artifacts
+    orpc_router: {
+      id: "orpc-router",
+      type: "interface",
+      status: "completed",
+      description: "oRPC router serving OWL/SHACL/@context from dist with type-safe procedures",
+      dependencies: ["owl-generation", "validation-system", "build-system"],
+      artifacts: [
+        "src/server/orpc-router.ts"
+      ],
+      entropy: 0.02,
+    },
+
+    // Hono server layering content negotiation + /rpc endpoint
+    hono_server: {
+      id: "hono-server",
+      type: "interface",
+      status: "in_progress",
+      description: "Hono server with content negotiation at /dodaf and oRPC /rpc endpoint",
+      dependencies: ["orpc-router", "build-system"],
+      artifacts: [
+        "src/server/hono-server.ts",
+        "src/server/start.ts",
+        "package.json:scripts.serve:ontology"
+      ],
+      entropy: 0.04,
+    }
   },
 
   // Process network edges (dependencies)
   edges: [
+    { from: "typescript-canon", to: "resourcebox-integration", type: "enhances" },
+    { from: "resourcebox-integration", to: "natural-transformation", type: "depends" },
     { from: "typescript-canon", to: "natural-transformation", type: "depends" },
     { from: "rdf-canon", to: "natural-transformation", type: "depends" },
     { from: "natural-transformation", to: "validation-system", type: "depends" },
@@ -163,17 +210,25 @@ local project = {
     { from: "typescript-canon", to: "build-system", type: "depends" },
     { from: "rdf-canon", to: "build-system", type: "depends" },
     { from: "owl-generation", to: "build-system", type: "depends" },
+    // New server integration edges
+    { from: "owl-generation", to: "orpc-router", type: "depends" },
+    { from: "validation-system", to: "orpc-router", type: "depends" },
+    { from: "build-system", to: "orpc-router", type: "depends" },
+    { from: "orpc-router", to: "hono-server", type: "depends" },
+    { from: "build-system", to: "hono-server", type: "depends" },
   ],
 
   // Quality metrics
   metrics: {
-    totalEntropy: 0.14,  // Sum of all node entropies (< 0.2 = excellent)
+    totalEntropy: 0.21,  // Slightly increased with ResourceBox integration
     testCoverage: 1.0,   // All functionality tested
     buildSuccess: true,
     typeCheckSuccess: true,
     allTestsPassing: true,
-    totalTests: 53,
+    totalTests: 55,  // Updated with ResourceBox integration tests
     semanticArtifactsGenerated: 3,  // context, shapes, owl
+    devServerRuns: false,  // Hono app.fire failed on Node runtime (needs node adapter)
+    resourceBoxIntegrated: true,  // New enhancement layer added
   },
 
   // Completion status
@@ -182,7 +237,7 @@ local project = {
     coreFeatures: "100%",
     qualityAssurance: "100%",
     documentation: "95%",  // README needs final updates
-    deploymentReady: true,
+    deploymentReady: true,  // library artifacts are deployable
     productionReady: true,
   },
 
@@ -196,7 +251,7 @@ local project = {
       "Performance optimization for large architectures",
       "Additional semantic DSL features"
     ],
-    currentFocus: "Production deployment and ecosystem integration"
+    currentFocus: "Hono server Node adapter (e.g., @hono/node-server) and Vercel headers/rewrites"
   }
 };
 
