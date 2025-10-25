@@ -130,6 +130,49 @@ dodaf:ViewShape
         sh:datatype xsd:string ;
         sh:message "View must have a name" ;
     ] .
+
+# Domain Shapes - minimal validation
+dodaf:CapabilityShape
+    a sh:NodeShape ;
+    sh:target [ a sh:SPARQLTarget ; sh:select """
+        SELECT ?this WHERE { ?this rdf:type dodaf:Capability . }
+    """ ; ] ;
+    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:datatype xsd:string ] .
+
+dodaf:ActivityShape
+    a sh:NodeShape ;
+    sh:target [ a sh:SPARQLTarget ; sh:select """
+        SELECT ?this WHERE { ?this rdf:type dodaf:Activity . }
+    """ ; ] ;
+    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:datatype xsd:string ] .
+
+dodaf:ServiceShape
+    a sh:NodeShape ;
+    sh:target [ a sh:SPARQLTarget ; sh:select """
+        SELECT ?this WHERE { ?this rdf:type dodaf:Service . }
+    """ ; ] ;
+    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:datatype xsd:string ] .
+
+dodaf:StandardShape
+    a sh:NodeShape ;
+    sh:target [ a sh:SPARQLTarget ; sh:select """
+        SELECT ?this WHERE { ?this rdf:type dodaf:Standard . }
+    """ ; ] ;
+    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:datatype xsd:string ] .
+
+dodaf:AgreementShape
+    a sh:NodeShape ;
+    sh:target [ a sh:SPARQLTarget ; sh:select """
+        SELECT ?this WHERE { ?this rdf:type dodaf:Agreement . }
+    """ ; ] ;
+    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:datatype xsd:string ] .
+
+dodaf:InformationShape
+    a sh:NodeShape ;
+    sh:target [ a sh:SPARQLTarget ; sh:select """
+        SELECT ?this WHERE { ?this rdf:type dodaf:Information . }
+    """ ; ] ;
+    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:datatype xsd:string ] .
 `;
 
   // Write SHACL shapes file

@@ -21,6 +21,12 @@ import {
   author,
   version,
   status,
+  Capability,
+  Activity,
+  Service as ServiceClass,
+  Standard as StandardClass,
+  Agreement as AgreementClass,
+  Information as InformationClass,
 } from "./dodaf-ontology.rb";
 
 export const ElementResource = Resource.Object({
@@ -76,12 +82,61 @@ export const MetadataResource = Resource.Object({
   class: MetadataClass,
 });
 
+// Domain resources
+export const CapabilityResource = Resource.Object({
+  "@id": Resource.String({ format: "uri" }),
+  "@type": Resource.Literal([dodaf("Capability")]),
+  name: Resource.String({ property: name, minLength: 1 }),
+  description: Resource.String({ property: description, optional: true }),
+}, { class: Capability });
+
+export const ActivityResource = Resource.Object({
+  "@id": Resource.String({ format: "uri" }),
+  "@type": Resource.Literal([dodaf("Activity")]),
+  name: Resource.String({ property: name, minLength: 1 }),
+  description: Resource.String({ property: description, optional: true }),
+}, { class: Activity });
+
+export const ServiceResource = Resource.Object({
+  "@id": Resource.String({ format: "uri" }),
+  "@type": Resource.Literal([dodaf("Service")]),
+  name: Resource.String({ property: name, minLength: 1 }),
+  description: Resource.String({ property: description, optional: true }),
+}, { class: ServiceClass });
+
+export const StandardResource = Resource.Object({
+  "@id": Resource.String({ format: "uri" }),
+  "@type": Resource.Literal([dodaf("Standard")]),
+  name: Resource.String({ property: name, minLength: 1 }),
+  description: Resource.String({ property: description, optional: true }),
+}, { class: StandardClass });
+
+export const AgreementResource = Resource.Object({
+  "@id": Resource.String({ format: "uri" }),
+  "@type": Resource.Literal([dodaf("Agreement")]),
+  name: Resource.String({ property: name, minLength: 1 }),
+  description: Resource.String({ property: description, optional: true }),
+}, { class: AgreementClass });
+
+export const InformationResource = Resource.Object({
+  "@id": Resource.String({ format: "uri" }),
+  "@type": Resource.Literal([dodaf("Information")]),
+  name: Resource.String({ property: name, minLength: 1 }),
+  description: Resource.String({ property: description, optional: true }),
+}, { class: InformationClass });
+
 export const DODAF_RESOURCES = {
   ElementResource,
   ProductResource,
   ViewResource,
   RelationshipResource,
   MetadataResource,
+  CapabilityResource,
+  ActivityResource,
+  ServiceResource,
+  StandardResource,
+  AgreementResource,
+  InformationResource,
 };
 
 

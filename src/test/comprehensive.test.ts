@@ -5,6 +5,8 @@
  */
 
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import {
   createDoDAFArchitecture,
   validateArchitecture,
@@ -321,6 +323,21 @@ describe('Comprehensive DoDAF Tests', () => {
         // Skip this test for now if RDF conversion is not working
         expect(true).toBe(true);
       }
+    });
+  });
+
+  it('should include domain classes in OWL TTL', () => {
+    const ttl = readFileSync(join(process.cwd(), 'dist', 'dodaf.owl.ttl'), 'utf-8');
+    const must = [
+      'dodaf:Capability',
+      'dodaf:Activity',
+      'dodaf:Service',
+      'dodaf:Standard',
+      'dodaf:Agreement',
+      'dodaf:Information',
+    ];
+    must.forEach((term) => {
+      expect(ttl.includes(term)).toBe(true);
     });
   });
 });

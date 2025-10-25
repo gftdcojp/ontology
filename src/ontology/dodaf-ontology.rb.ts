@@ -49,6 +49,43 @@ export const Metadata = Onto.Class({
   comment: "Metadata for DoDAF elements and architectures",
 });
 
+// Domain classes (core selection)
+export const Capability = Onto.Class({
+  iri: dodaf("Capability"),
+  label: "Capability",
+  comment: "An ability to achieve a desired effect under specified standards and conditions",
+});
+
+export const Activity = Onto.Class({
+  iri: dodaf("Activity"),
+  label: "Activity",
+  comment: "Work transforming resources into outputs or changing their state",
+});
+
+export const Service = Onto.Class({
+  iri: dodaf("Service"),
+  label: "Service",
+  comment: "A unit of functionality provided at an interface",
+});
+
+export const Standard = Onto.Class({
+  iri: dodaf("Standard"),
+  label: "Standard",
+  comment: "Formal agreement documenting accepted specifications or criteria",
+});
+
+export const Agreement = Onto.Class({
+  iri: dodaf("Agreement"),
+  label: "Agreement",
+  comment: "Consent among parties regarding terms and conditions of activities",
+});
+
+export const Information = Onto.Class({
+  iri: dodaf("Information"),
+  label: "Information",
+  comment: "State of something of interest that is materialized and communicated",
+});
+
 // Properties
 export const name = Onto.Property({
   iri: dodaf("name"),
@@ -209,7 +246,7 @@ export const properties = Onto.Property({
 
 export const RB_CANON = {
   dodaf,
-  classes: { Architecture, View, Product, Element, Relationship, Metadata },
+  classes: { Architecture, View, Product, Element, Relationship, Metadata, Capability, Activity, Service, Standard, Agreement, Information },
   properties: {
     name,
     description,

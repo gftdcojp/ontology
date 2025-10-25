@@ -67,6 +67,37 @@ dodaf:Metadata
     rdfs:label "Metadata" ;
     rdfs:comment "Metadata for DoDAF elements and architectures" .
 
+# Domain Class declarations
+dodaf:Capability
+    a owl:Class ;
+    rdfs:label "Capability" ;
+    rdfs:comment "An ability to achieve a desired effect under specified standards and conditions" .
+
+dodaf:Activity
+    a owl:Class ;
+    rdfs:label "Activity" ;
+    rdfs:comment "Work transforming resources into outputs or changing their state" .
+
+dodaf:Service
+    a owl:Class ;
+    rdfs:label "Service" ;
+    rdfs:comment "A unit of functionality provided at an interface" .
+
+dodaf:Standard
+    a owl:Class ;
+    rdfs:label "Standard" ;
+    rdfs:comment "Formal agreement documenting accepted specifications or criteria" .
+
+dodaf:Agreement
+    a owl:Class ;
+    rdfs:label "Agreement" ;
+    rdfs:comment "Consent among parties regarding terms and conditions of activities" .
+
+dodaf:Information
+    a owl:Class ;
+    rdfs:label "Information" ;
+    rdfs:comment "State of something of interest that is materialized and communicated" .
+
 # Property declarations
 
 # Data properties
