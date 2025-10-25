@@ -8,7 +8,7 @@ import { Onto, Resource, Shape, Static } from '@gftdcojp/resourcebox';
 // Define DoDAF namespace
 export const dodaf = Onto.Namespace({
   prefix: "dodaf",
-  uri: "http://dodcio.defense.gov/dodaf20#"
+  uri: "https://dodaf.defense.gov/ontology#"
 });
 
 // Base JSON-LD context type (without actual context definition)
@@ -339,7 +339,7 @@ export type DoDAFArchitecture = Static<typeof DoDAFArchitectureSchema>;
 export const dodafContext = Resource.context(DoDAFArchitectureSchema, {
   includeNamespaces: true,
   namespaces: {
-    dodaf: "http://dodcio.defense.gov/dodaf20#",
+    dodaf: "https://dodaf.defense.gov/ontology#",
     rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     rdfs: "http://www.w3.org/2000/01/rdf-schema#",
     owl: "http://www.w3.org/2002/07/owl#",

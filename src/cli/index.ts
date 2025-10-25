@@ -9,7 +9,9 @@
 
 import { Command } from 'commander';
 import { readFileSync } from 'fs';
-import { DoDAFJSONLDValidator, validateArchitecture, createDoDAFArchitecture } from '../index.js';
+import { DoDAFJSONLDValidator, createDoDAFArchitecture } from '../index.js';
+import { join } from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 const program = new Command();
 
@@ -77,7 +79,13 @@ program
       .description('Generate JSON-LD context')
       .action(() => {
         console.log('🔧 Generating JSON-LD context...');
-        // This would call the generate-context script
+        try {
+          const script = join(process.cwd(), 'scripts', 'generate-context.js');
+          execFileSync(process.execPath, [script], { stdio: 'inherit' });
+        } catch (e) {
+          console.error('❌ Context generation failed:', e instanceof Error ? e.message : String(e));
+          process.exit(1);
+        }
         console.log('✅ Context generation completed');
       })
   )
@@ -86,7 +94,13 @@ program
       .description('Generate SHACL shapes')
       .action(() => {
         console.log('🔧 Generating SHACL shapes...');
-        // This would call the generate-shacl script
+        try {
+          const script = join(process.cwd(), 'scripts', 'generate-shacl.js');
+          execFileSync(process.execPath, [script], { stdio: 'inherit' });
+        } catch (e) {
+          console.error('❌ SHACL shapes generation failed:', e instanceof Error ? e.message : String(e));
+          process.exit(1);
+        }
         console.log('✅ SHACL shapes generation completed');
       })
   )
@@ -95,7 +109,13 @@ program
       .description('Generate OWL ontology')
       .action(() => {
         console.log('🔧 Generating OWL ontology...');
-        // This would call the generate-owl script
+        try {
+          const script = join(process.cwd(), 'scripts', 'generate-owl.js');
+          execFileSync(process.execPath, [script], { stdio: 'inherit' });
+        } catch (e) {
+          console.error('❌ OWL ontology generation failed:', e instanceof Error ? e.message : String(e));
+          process.exit(1);
+        }
         console.log('✅ OWL ontology generation completed');
       })
   )
@@ -104,6 +124,18 @@ program
       .description('Generate all semantic artifacts')
       .action(() => {
         console.log('🔧 Generating all semantic artifacts...');
+        const run = (file: string) => {
+          const script = join(process.cwd(), 'scripts', file);
+          execFileSync(process.execPath, [script], { stdio: 'inherit' });
+        };
+        try {
+          run('generate-context.js');
+          run('generate-shacl.js');
+          run('generate-owl.js');
+        } catch (e) {
+          console.error('❌ Artifact generation failed:', e instanceof Error ? e.message : String(e));
+          process.exit(1);
+        }
         console.log('✅ All artifacts generated successfully');
       })
   );

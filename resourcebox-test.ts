@@ -9,7 +9,7 @@ import { Onto, Resource, Shape } from '@gftdcojp/resourcebox';
 // 1. Define DoDAF ontology namespace
 const dodaf = Onto.Namespace({
   prefix: "dodaf",
-  uri: "http://dodcio.defense.gov/dodaf20#"
+  uri: "https://dodaf.defense.gov/ontology#"
 });
 
 // 2. Define basic DoDAF classes
@@ -107,7 +107,7 @@ console.log("\n3. JSON-LD Context Generation:");
 const context = Resource.context(DoDAFResource, {
   includeNamespaces: true,
   namespaces: {
-    dodaf: "http://dodcio.defense.gov/dodaf20#"
+    dodaf: "https://dodaf.defense.gov/ontology#"
   }
 });
 console.log("Generated context:", JSON.stringify(context, null, 2));

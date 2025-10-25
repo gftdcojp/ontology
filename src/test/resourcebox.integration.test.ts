@@ -12,7 +12,7 @@ describe('ResourceBox Integration Test', () => {
     // 1. Define DoDAF ontology namespace
     const dodaf = Onto.Namespace({
       prefix: "dodaf",
-      uri: "http://dodcio.defense.gov/dodaf20#"
+      uri: "https://dodaf.defense.gov/ontology#"
     });
 
     // 2. Define basic DoDAF classes
@@ -78,7 +78,7 @@ describe('ResourceBox Integration Test', () => {
     const context = Resource.context(DoDAFResource, {
       includeNamespaces: true,
       namespaces: {
-        dodaf: "http://dodcio.defense.gov/dodaf20#"
+        dodaf: "https://dodaf.defense.gov/ontology#"
       }
     });
     expect(context).toHaveProperty("@context");
@@ -88,7 +88,7 @@ describe('ResourceBox Integration Test', () => {
   it('should work with SHACL validation', () => {
     const dodaf = Onto.Namespace({
       prefix: "dodaf",
-      uri: "http://dodcio.defense.gov/dodaf20#"
+      uri: "https://dodaf.defense.gov/ontology#"
     });
 
     const ResourceClass = Onto.Class({

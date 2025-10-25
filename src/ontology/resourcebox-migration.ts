@@ -10,13 +10,10 @@ import { Onto, Resource, Shape, Static } from '@gftdcojp/resourcebox';
 // Define DoDAF namespace using ResourceBox
 export const dodaf = Onto.Namespace({
   prefix: "dodaf",
-  uri: "http://dodcio.defense.gov/dodaf20#"
+  uri: "https://dodaf.defense.gov/ontology#"
 });
 
-// Built-in namespaces
-const rdf = Onto.RDF;
-const rdfs = Onto.RDFS;
-const owl = Onto.OWL;
+// Built-in namespaces (reserved for future use)
 
 // Define core DoDAF ontology classes
 export const ResourceClass = Onto.Class({
@@ -144,7 +141,7 @@ export type Element = Static<typeof ElementResource>;
 export const dodafContext = Resource.context(ElementResource, {
   includeNamespaces: true,
   namespaces: {
-    dodaf: "http://dodcio.defense.gov/dodaf20#",
+    dodaf: "https://dodaf.defense.gov/ontology#",
     rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     rdfs: "http://www.w3.org/2000/01/rdf-schema#"
   }

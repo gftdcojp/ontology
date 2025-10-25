@@ -13,11 +13,7 @@ import {
   ResourceBoxMigrationUtils,
   dodafContext
 } from '../ontology/resourcebox-migration.js';
-import {
-  ElementSchema,
-  ElementMetadataSchema,
-  ViewTypeSchema
-} from '../ontology/dodaf-schema.js';
+// Note: TypeBox schemas not used in RB alignment tests; keeping RB-only
 
 describe('ResourceBox Migration Test', () => {
   describe('Schema Compatibility', () => {
@@ -72,7 +68,7 @@ describe('ResourceBox Migration Test', () => {
       const context = ResourceBoxMigrationUtils.generateContext(ElementResource, {
         includeNamespaces: true,
         namespaces: {
-          dodaf: "http://dodcio.defense.gov/dodaf20#"
+          dodaf: "https://dodaf.defense.gov/ontology#"
         }
       });
 
@@ -142,7 +138,7 @@ describe('ResourceBox Migration Test', () => {
       const context = ResourceBoxMigrationUtils.generateContext(ElementResource, {
         includeNamespaces: true,
         namespaces: {
-          dodaf: "http://dodcio.defense.gov/dodaf20#",
+          dodaf: "https://dodaf.defense.gov/ontology#",
           rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
         }
       });
@@ -151,8 +147,8 @@ describe('ResourceBox Migration Test', () => {
       const ctx = context["@context"];
       expect(ctx).toHaveProperty("dodaf");
       expect(ctx).toHaveProperty("rdf");
-      expect(ctx.dodaf).toBe("http://dodcio.defense.gov/dodaf20#");
-      expect(ctx.name).toEqual({ "@id": "http://dodcio.defense.gov/dodaf20#name" });
+      expect(ctx.dodaf).toBe("https://dodaf.defense.gov/ontology#");
+      expect(ctx.name).toEqual({ "@id": "https://dodaf.defense.gov/ontology#name" });
     });
   });
 });

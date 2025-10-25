@@ -398,12 +398,12 @@ import { Class, DataProperty, ObjectProperty } from '@gftdcojp/ai-gftd-ontology-
 // Define namespace
 const dodaf = Onto.Namespace({
   prefix: "dodaf",
-  uri: "http://dodaf.defense.gov/dodaf20#"
+  uri: "https://dodaf.defense.gov/ontology#"
 });
 
 // Define class
 const PersonClass = Onto.Class({
-  iri: "http://dodaf.defense.gov/dodaf20#Person",
+  iri: "https://dodaf.defense.gov/ontology#Person",
   comment: "A person in the DoDAF ontology"
 });
 
