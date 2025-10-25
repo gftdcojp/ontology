@@ -1,15 +1,18 @@
 /**
- * Domain-Specific Language for TypeBox + RDF/OWL/SHACL Integration
+ * Domain-Specific Language for ResourceBox + RDF/OWL/SHACL Integration
  *
- * This DSL extends TypeBox with semantic metadata that enables automatic
+ * This DSL extends ResourceBox with semantic metadata that enables automatic
  * generation of JSON-LD contexts, SHACL shapes, and OWL ontologies.
  */
 
-import { Type, type TSchema, type TObject, type TProperties, type TOptional } from "@sinclair/typebox";
+import { Onto, Resource, Shape } from '@gftdcojp/resourcebox';
+
+// Re-export SemanticSchema for backward compatibility
+export type SemanticSchema<T = any> = SemanticResourceSchema<T>;
 import type { IRI, DodafClass, RdfProperty } from "./vocab";
 
-// RDF/OWL metadata attached to TypeBox schemas
-type RdfMeta = {
+// RDF/OWL metadata for ResourceBox schemas
+export type RdfMeta = {
   /** OWL Class IRI */
   "@class": IRI<string>;
   /** JSON-LD context mappings */
@@ -20,7 +23,7 @@ type RdfMeta = {
   "@restrictions"?: Record<string, unknown>;
 };
 
-// Property-level RDF/OWL/SHACL metadata
+// Property-level RDF/OWL/SHACL metadata for ResourceBox
 export type PropMeta = {
   /** Property IRI (maps to OWL property or SHACL path) */
   "@prop": IRI<string>;
@@ -43,30 +46,29 @@ export type PropMeta = {
 };
 
 /**
- * Enhanced TypeBox schema with RDF metadata
+ * Enhanced ResourceBox schema with RDF metadata
  */
-export type SemanticSchema<T extends TSchema = TSchema> = T & {
+export type SemanticResourceSchema<T = any> = T & {
   "@rdf"?: RdfMeta;
   "@props"?: Record<string, PropMeta>;
 };
 
 /**
- * Create an OWL Class with TypeBox schema
+ * Create an OWL Class with ResourceBox schema
  *
  * @param iri - The OWL Class IRI
- * @param properties - TypeBox property definitions
+ * @param properties - ResourceBox property definitions
  * @param meta - Additional RDF metadata
- * @returns TypeBox object schema with RDF metadata
+ * @param options - ResourceBox options including class
+ * @returns ResourceBox object schema with RDF metadata
  */
-export function Class<P extends TProperties>(
+export function Class(
   iri: IRI<string>,
-  properties: P,
-  meta: Omit<RdfMeta, "@class"> = {}
-): TObject<P> & SemanticSchema<TObject<P>> {
-  const schema = Type.Object(properties, {
-    $id: iri,
-    title: getLocalNameFromIri(iri),
-  });
+  properties: Record<string, any>,
+  meta: Omit<RdfMeta, "@class"> = {},
+  options: { class?: any } = {}
+): any & SemanticResourceSchema {
+  const schema = Resource.Object(properties, options);
 
   // Attach RDF metadata to the schema
   (schema as any)["@rdf"] = { "@class": iri, ...meta };
@@ -80,56 +82,62 @@ export function Class<P extends TProperties>(
     }
   }
 
-  return schema as TObject<P> & SemanticSchema<TObject<P>>;
+  return schema as any & SemanticResourceSchema;
 }
 
 /**
- * Create a data property (maps to OWL DatatypeProperty)
+ * Create a data property (maps to OWL DatatypeProperty) for ResourceBox
  *
- * @param schema - Base TypeBox schema
+ * @param schema - Base ResourceBox schema
  * @param meta - RDF/OWL/SHACL metadata
  * @returns Enhanced schema with semantic metadata
  */
-export function DataProperty<T extends TSchema>(
+export function DataProperty<T>(
   schema: T,
   meta: Omit<PropMeta, "@kind"> & { "@kind"?: "data" }
-): T & SemanticSchema<T> {
-  const enhanced = { ...schema, "@prop": { "@kind": "data" as const, ...meta } };
-  return enhanced as T & SemanticSchema<T>;
+): T & { "@prop": PropMeta } {
+  const enhanced = {
+    ...schema,
+    "@prop": { "@kind": "data" as const, ...meta }
+  };
+  return enhanced as T & { "@prop": PropMeta };
 }
 
 /**
- * Create an object property (maps to OWL ObjectProperty)
+ * Create an object property (maps to OWL ObjectProperty) for ResourceBox
  *
- * @param schema - Base TypeBox schema
+ * @param schema - Base ResourceBox schema
  * @param meta - RDF/OWL/SHACL metadata
  * @returns Enhanced schema with semantic metadata
  */
-export function ObjectProperty<T extends TSchema>(
+export function ObjectProperty<T>(
   schema: T,
   meta: Omit<PropMeta, "@kind"> & { "@kind"?: "object" }
-): T & SemanticSchema<T> {
-  const enhanced = { ...schema, "@prop": { "@kind": "object" as const, ...meta } };
-  return enhanced as T & SemanticSchema<T>;
+): T & { "@prop": PropMeta } {
+  const enhanced = {
+    ...schema,
+    "@prop": { "@kind": "object" as const, ...meta }
+  };
+  return enhanced as T & { "@prop": PropMeta };
 }
 
 /**
- * Create a functional property (OWL FunctionalProperty)
+ * Create a functional property (OWL FunctionalProperty) for ResourceBox
  */
-export function FunctionalDataProperty<T extends TSchema>(
+export function FunctionalDataProperty<T>(
   schema: T,
   meta: Omit<PropMeta, "@kind" | "owl:FunctionalProperty">
-): T & SemanticSchema<T> {
+): T & { "@prop": PropMeta } {
   return DataProperty(schema, { ...meta, "owl:FunctionalProperty": true });
 }
 
 /**
- * Create a functional object property
+ * Create a functional object property for ResourceBox
  */
-export function FunctionalObjectProperty<T extends TSchema>(
+export function FunctionalObjectProperty<T>(
   schema: T,
   meta: Omit<PropMeta, "@kind" | "owl:FunctionalProperty">
-): T & SemanticSchema<T> {
+): T & { "@prop": PropMeta } {
   return ObjectProperty(schema, { ...meta, "owl:FunctionalProperty": true });
 }
 
@@ -140,28 +148,28 @@ export const extractRdf = {
   /**
    * Get class IRI from schema
    */
-  getClass: (schema: SemanticSchema): IRI<string> | undefined => {
+  getClass: (schema: SemanticResourceSchema): IRI<string> | undefined => {
     return schema["@rdf"]?.["@class"];
   },
 
   /**
    * Get all properties metadata
    */
-  getProperties: (schema: SemanticSchema): Record<string, PropMeta> => {
+  getProperties: (schema: SemanticResourceSchema): Record<string, PropMeta> => {
     return schema["@props"] || {};
   },
 
   /**
    * Check if schema has RDF metadata
    */
-  hasRdf: (schema: SemanticSchema): boolean => {
+  hasRdf: (schema: SemanticResourceSchema): boolean => {
     return !!schema["@rdf"];
   },
 
   /**
    * Get JSON-LD context from schema
    */
-  getContext: (schema: SemanticSchema): Record<string, string> | undefined => {
+  getContext: (schema: SemanticResourceSchema): Record<string, string> | undefined => {
     return schema["@rdf"]?.["@context"];
   },
 } as const;

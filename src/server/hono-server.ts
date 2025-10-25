@@ -50,7 +50,14 @@ app.get("/dodaf", async (c) => {
         ? "public, max-age=0, s-maxage=600, stale-while-revalidate=86400"
         : "public, max-age=0, s-maxage=31536000, immutable",
     );
-    return c.body(buf);
+    return new Response(new Uint8Array(buf), {
+      headers: {
+        'Content-Type': type,
+        'Cache-Control': file === "index.html"
+          ? "public, max-age=0, s-maxage=600, stale-while-revalidate=86400"
+          : "public, max-age=0, s-maxage=31536000, immutable",
+      },
+    });
   } catch {
     return c.text("Not Found", 404);
   }
@@ -59,26 +66,35 @@ app.get("/dodaf", async (c) => {
 // Explicit versioned static endpoints (optional convenience)
 app.get("/dodaf/v1/owl", async (c) => {
   const buf = await readFile(join(process.cwd(), "dist", "dodaf.owl.ttl"));
-  c.header("Content-Type", "text/turtle; charset=utf-8");
-  c.header("Cache-Control", "public, max-age=0, s-maxage=31536000, immutable");
-  c.header("Access-Control-Allow-Origin", "*");
-  return c.body(buf);
+  return new Response(new Uint8Array(buf), {
+    headers: {
+      "Content-Type": "text/turtle; charset=utf-8",
+      "Cache-Control": "public, max-age=0, s-maxage=31536000, immutable",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
 });
 
 app.get("/dodaf/v1/shapes", async (c) => {
   const buf = await readFile(join(process.cwd(), "dist", "dodaf.shapes.ttl"));
-  c.header("Content-Type", "text/turtle; charset=utf-8");
-  c.header("Cache-Control", "public, max-age=0, s-maxage=31536000, immutable");
-  c.header("Access-Control-Allow-Origin", "*");
-  return c.body(buf);
+  return new Response(new Uint8Array(buf), {
+    headers: {
+      "Content-Type": "text/turtle; charset=utf-8",
+      "Cache-Control": "public, max-age=0, s-maxage=31536000, immutable",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
 });
 
 app.get("/dodaf/v1/context", async (c) => {
   const buf = await readFile(join(process.cwd(), "dist", "dodaf-context.json"));
-  c.header("Content-Type", "application/ld+json");
-  c.header("Cache-Control", "public, max-age=0, s-maxage=31536000, immutable");
-  c.header("Access-Control-Allow-Origin", "*");
-  return c.body(buf);
+  return new Response(new Uint8Array(buf), {
+    headers: {
+      "Content-Type": "application/ld+json",
+      "Cache-Control": "public, max-age=0, s-maxage=31536000, immutable",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
 });
 
 export default app;

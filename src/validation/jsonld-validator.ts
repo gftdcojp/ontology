@@ -1,5 +1,5 @@
 import * as jsonld from 'jsonld';
-import { TypeCompiler } from '@sinclair/typebox/compiler';
+import { Resource } from '@gftdcojp/resourcebox';
 import { DoDAFSchema } from '../ontology/dodaf-schema';
 import type { DoDAFArchitecture } from '../types/dodaf';
 import { validateElementAgainstMetaModel, validateRelationshipAgainstMetaModel } from '../ontology/dodaf-metamodel';
@@ -11,10 +11,8 @@ import { join } from 'path';
 const SHACLValidator = require('rdf-validate-shacl');
 
 /**
- * Enhanced JSON-LD Validator for DoDAF 2.0 Ontology with SHACL support
+ * Enhanced JSON-LD Validator for DoDAF 2.0 Ontology with ResourceBox support
  */
-
-const compiler = TypeCompiler.Compile(DoDAFSchema);
 
 export class DoDAFJSONLDValidator {
   static readonly DoDAF_CONTEXT = {

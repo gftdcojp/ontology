@@ -5,7 +5,7 @@
  * TypeBox schemas that include RDF and SHACL metadata via the DSL.
  */
 
-import { DataFactory } from "@rdfjs/data-model";
+import DataFactory from "@rdfjs/data-model";
 import { Writer } from "n3";
 import type { TObject } from "@sinclair/typebox";
 import { prefix, term, type IRI } from "../vocab";
@@ -91,7 +91,7 @@ export function generateShaclTurtle(
       if (!propMeta["@prop"]) continue;
 
       const propertyShape = inlinePropertyShapes
-        ? writer.blankNode()
+        ? DataFactory.blankNode()
         : DataFactory.namedNode(`${String(classIri)}Shape_${propName}`);
 
       // Add property to shape
@@ -214,7 +214,7 @@ function createRdfList(writer: Writer, values: readonly unknown[]): any {
     return DataFactory.namedNode(`${prefix.rdf}nil`);
   }
 
-  const listNode = writer.blankNode();
+  const listNode = DataFactory.blankNode();
 
   // First element
   const firstValue = values[0];

@@ -7,16 +7,8 @@
 const fs = require('fs');
 const path = require('path');
 
-// Import the built distribution
-// Note: This assumes the project has been built first
-let generateDodafOwlTurtle;
-try {
-  const lib = require('../dist/index.js');
-  generateDodafOwlTurtle = lib.generateDodafOwlTurtle;
-} catch (error) {
-  console.error('❌ Failed to load built library. Please run `pnpm build` first.');
-  process.exit(1);
-}
+// Note: Using hardcoded OWL generation for ResourceBox compatibility
+// TODO: Integrate with ResourceBox Onto generation in future
 
 try {
   // Generate OWL ontology

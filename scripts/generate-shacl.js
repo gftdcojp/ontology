@@ -7,16 +7,8 @@
 const fs = require('fs');
 const path = require('path');
 
-// Import the built distribution
-// Note: This assumes the project has been built first
-let generateDodafShaclTurtle;
-try {
-  const lib = require('../dist/index.js');
-  generateDodafShaclTurtle = lib.generateDodafShaclTurtle;
-} catch (error) {
-  console.error('❌ Failed to load built library. Please run `pnpm build` first.');
-  process.exit(1);
-}
+// Note: Using hardcoded SHACL generation for ResourceBox compatibility
+// TODO: Integrate with ResourceBox Shape generation in future
 
 try {
   // Generate SHACL shapes

@@ -7,6 +7,7 @@
 
 import * as jsonld from 'jsonld';
 import { Parser, Store, DataFactory } from 'n3';
+// @ts-ignore - rdf-validate-shacl has no type definitions
 import { ShaclValidator } from 'rdf-validate-shacl';
 import type { SemanticSchema } from '../dsl';
 import { generateDodafShaclTurtle } from '../generators/shacl';
@@ -84,10 +85,12 @@ export class DoDAFSHACLValidator {
   ): Promise<ShaclValidationResult> {
     try {
       // Convert JSON-LD to N-Quads
-      const nquads = await jsonld.toRDF(jsonldDoc, {
-        format: 'application/n-quads',
-        expandContext: options.expandContext
+      const rdfResult = await jsonld.toRDF(jsonldDoc, {
+        format: 'application/n-quads'
       });
+
+      // Extract N-Quads string from result
+      const nquads = typeof rdfResult === 'string' ? rdfResult : rdfResult.toString();
 
       // Parse N-Quads into RDF store
       const dataStore = new Store(new Parser({ format: 'N-Quads' }).parse(nquads));
@@ -96,11 +99,11 @@ export class DoDAFSHACLValidator {
       const report = await this.validator.validate(dataStore);
 
       // Convert report to our result format
-      const results: ShaclValidationError[] = report.results.map(result => ({
+      const results: ShaclValidationError[] = report.results.map((result: any) => ({
         focusNode: result.focusNode?.value,
         path: result.path?.value,
         constraint: result.constraint?.value,
-        message: result.message.map(msg => msg.value).join('; ') || 'Validation failed',
+        message: result.message.map((msg: any) => msg.value).join('; ') || 'Validation failed',
         severity: this.mapSeverity(result.severity?.value),
         sourceShape: result.sourceShape?.value,
       }));

@@ -23,8 +23,6 @@ export type {
 // Export schemas
 export {
   DoDAFSchema,
-  ViewTypeSchema,
-  ViewNameSchema,
   ElementSchema,
   RelationshipSchema,
   ProductSchema,
@@ -33,6 +31,11 @@ export {
   ElementMetadataSchema,
   ArchitectureMetadataSchema
 } from './ontology/dodaf-schema';
+
+export {
+  ViewTypeSchema,
+  ViewNameSchema
+} from './ontology/dodaf-view';
 
 // Export validator
 import { DoDAFJSONLDValidator } from './validation/jsonld-validator';

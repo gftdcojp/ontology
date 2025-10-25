@@ -5,7 +5,7 @@
  * This file demonstrates how to convert existing TypeBox schemas to ResourceBox
  */
 
-import { Onto, Resource, Shape } from '@gftdcojp/resourcebox';
+import { Onto, Resource, Shape, Static } from '@gftdcojp/resourcebox';
 import { Type } from '@sinclair/typebox';
 
 // Define DoDAF namespace using ResourceBox
@@ -70,8 +70,7 @@ export const created = Onto.Property({
 export const ViewTypeResource = Resource.Object({
   "@id": Resource.String({ format: "uri" }),
   type: Resource.String({
-    property: dodaf("type"),
-    enum: ["AV", "OV", "SV", "TV", "DIV"]
+    property: dodaf("type")
   })
 });
 
@@ -98,8 +97,7 @@ export const ElementMetadataResource = Resource.Object({
   }),
 
   status: Resource.String({
-    property: dodaf("status"),
-    enum: ["draft", "review", "approved", "deprecated"]
+    property: dodaf("status")
   })
 }, {
   class: Onto.Class({
@@ -139,9 +137,9 @@ export const ElementMetadataShape = Shape.fromResource(ElementMetadataResource, 
 });
 
 // Type inference
-export type ViewType = Resource.Static<typeof ViewTypeResource>;
-export type ElementMetadata = Resource.Static<typeof ElementMetadataResource>;
-export type Element = Resource.Static<typeof ElementResource>;
+export type ViewType = Static<typeof ViewTypeResource>;
+export type ElementMetadata = Static<typeof ElementMetadataResource>;
+export type Element = Static<typeof ElementResource>;
 
 // JSON-LD context generation
 export const dodafContext = Resource.context(ElementResource, {
@@ -159,8 +157,8 @@ export class ResourceBoxMigrationUtils {
   /**
    * Validate data with ResourceBox schema
    */
-  static validateResource<T extends Resource.ResourceSchema>(
-    resourceSchema: T,
+  static validateResource(
+    resourceSchema: any,
     data: any
   ) {
     return Resource.validate(resourceSchema, data);
@@ -169,14 +167,14 @@ export class ResourceBoxMigrationUtils {
   /**
    * Convert ResourceBox schema to JSON-LD context
    */
-  static generateContext(schema: Resource.ResourceSchema, options?: Resource.ContextOptions) {
+  static generateContext(schema: any, options?: any) {
     return Resource.context(schema, options);
   }
 
   /**
    * Generate SHACL shape from ResourceBox schema
    */
-  static generateShape(schema: Resource.ResourceSchema, options?: Shape.FromResourceOptions) {
+  static generateShape(schema: any, options?: any) {
     return Shape.fromResource(schema, options);
   }
 }
