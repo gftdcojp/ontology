@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "provider": "mithril-independent-actions",
+  "repository": "mithril-lang/ontology",
+  "controller": {
+    "repository": "mithril-lang/.github",
+    "revision": "cbc4c165c464c8aa7e986b52a87de5df03739f5b",
+    "entrypoint": "tools/independent-actions/cli.mjs"
+  },
+  "profile": "source",
+  "scope": "Python Turtle/JSON freshness only; Mithril generation excluded",
+  "state": "runtime-required",
+  "release": {
+    "state": "held",
+    "gates": [
+      "service-specific owner",
+      "exact clean current main",
+      "scoped credential",
+      "signed artifacts",
+      "rollback or immutable prior release",
+      "live or installed-client read-back"
+    ]
+  }
+}
